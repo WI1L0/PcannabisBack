@@ -15,13 +15,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Empresas")
+@Table(name = "empresas")
 public class Empresas implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idEmpresa")
-    private Integer idEmpresa;
+    @Column(name = "idEmpresas")
+    private Integer idEmpresas;
 
     @Column(name = "historia")
     private String historia;
@@ -44,8 +44,8 @@ public class Empresas implements Serializable {
     @Column(name = "latitud")
     private Double latitud;
 
-    @Column(name = "estEmpresa")
-    private Boolean estEmpresa;
+    @Column(name = "estEmpresas")
+    private Boolean estEmpresas;
 
     //RELACIONES
     @JsonIgnore

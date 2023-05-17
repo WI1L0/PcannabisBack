@@ -16,18 +16,18 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "categoriasNoticias")
-public class CategoriaNoticias implements Serializable {
+public class CategoriasNoticias implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idCategoriaNoticias")
-    private Integer idCategoriaNoticias;
+    @Column(name = "idCategoriasN")
+    private Integer idCategoriasN;
 
-    @Column(name = "nombreCategoriaNoticias")
-    private String nombreCategoriaNoticias;
+    @Column(name = "nombreCategoriasN")
+    private String nombreCategoriasN;
 
-    @Column(name = "estCategoriaNoticias")
-    private Boolean estCategoriaNoticias;
+    @Column(name = "estCategoriasN")
+    private Boolean estCategoriasN;
 
     //RELACIONES
     @JsonIgnore

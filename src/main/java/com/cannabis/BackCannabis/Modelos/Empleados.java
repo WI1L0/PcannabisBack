@@ -18,22 +18,22 @@ public class Empleados implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idEmpleado")
-    private Integer idEmpleado;
+    @Column(name = "idEmpleados")
+    private Integer idEmpleados;
 
-    @Column(name = "estEmpleado")
-    private Boolean estEmpleado;
+    @Column(name = "estEmpleados")
+    private Boolean estEmpleados;
 
     //RELACIONES
     @OneToOne(mappedBy = "empleados")
     private Usuarios usuarios;
 
     @ManyToOne
-    @JoinColumn(name="idCargo",referencedColumnName ="idCargo")
+    @JoinColumn(name="idCargos",referencedColumnName ="idCargos")
     private Cargos cargos;
 
     @ManyToOne
-    @JoinColumn(name="idEmpresa",referencedColumnName ="idEmpresa")
+    @JoinColumn(name="idEmpresas",referencedColumnName ="idEmpresas")
     private Empresas empresas;
 
 }

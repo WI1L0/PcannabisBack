@@ -18,17 +18,16 @@ public class FotosNoticias implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idFotoNoticias")
-    private Integer idFotoNoticias;
+    @Column(name = "idFotosN")
+    private Integer idFotosN;
 
-    @Column(name = "fotoNoticias")
-    private String fotoNoticias;
+    @Column(name = "fotosN")
+    private String fotosN;
 
-    @Column(name = "estFotoNoticias")
-    private Boolean estFotoNoticias;
+    @Column(name = "estFotosN")
+    private Boolean estFotosN;
 
     //RELACIONES
-
     @ManyToOne
     @JoinColumn(name="idNoticias",referencedColumnName ="idNoticias")
     private Noticias noticias;

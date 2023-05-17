@@ -21,8 +21,8 @@ public class Personas implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idPersona")
-    private Integer idPersona;
+    @Column(name = "idPersonas")
+    private Integer idPersonas;
 
     @Column(name = "nombre1")
     private String nombre1;
@@ -54,8 +54,8 @@ public class Personas implements Serializable {
     @Column(name = "genero")
     private String genero;
 
-    @Column(name = "estPersona")
-    private Boolean estPersona;
+    @Column(name = "estPersonas")
+    private Boolean estPersonas;
 
     //RELACIONES
     @JsonIgnore

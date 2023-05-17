@@ -39,12 +39,12 @@ public class Noticias implements Serializable {
 
     //RELACIONES
     @ManyToOne
-    @JoinColumn(name="idEmpresa",referencedColumnName ="idEmpresa")
+    @JoinColumn(name="idEmpresas",referencedColumnName ="idEmpresas")
     private Empresas empresas;
 
     @ManyToOne
-    @JoinColumn(name="idCategoriaNoticias",referencedColumnName ="idCategoriaNoticias")
-    private CategoriaNoticias categoriaNoticias;
+    @JoinColumn(name="idCategoriasN",referencedColumnName ="idCategoriasN")
+    private CategoriasNoticias categoriaNoticias;
 
     @JsonIgnore
     @OneToMany(mappedBy = "noticias")

@@ -20,21 +20,21 @@ public class Roles implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idRol")
-    private Integer idRol;
+    @Column(name = "idRoles")
+    private Integer idRoles;
 
-    @Column(name = "nombreRol")
-    private String nombreRol;
+    @Column(name = "nombreRoles")
+    private String nombreRoles;
 
-    @Column(name = "estRol")
-    private Boolean estRol;
+    @Column(name = "estRoles")
+    private Boolean estRoles;
 
     //RELACIONES
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "idUsuario"),
-            inverseJoinColumns = @JoinColumn(name = "idRol")
+            name = "usuarios_roles",
+            joinColumns = @JoinColumn(name = "idUsuarios"),
+            inverseJoinColumns = @JoinColumn(name = "idRoles")
     )
     private List<Usuarios> usuarios = new ArrayList<>();
 

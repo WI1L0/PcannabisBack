@@ -21,21 +21,21 @@ public class Beneficios implements Serializable {
     @Column(name = "idBeneficios")
     private Integer idBeneficios;
 
-    @Column(name = "tituloBeneficio")
-    private String tituloBeneficio;
+    @Column(name = "tituloBeneficios")
+    private String tituloBeneficios;
 
-    @Column(name = "descripcionBeneficio")
-    private String descripcionBeneficio;
+    @Column(name = "descripcionBeneficios")
+    private String descripcionBeneficios;
 
-    @Column(name = "fotoBeneficio")
-    private String fotoBeneficio;
+    @Column(name = "fotoBeneficios")
+    private String fotoBeneficios;
 
-    @Column(name = "estBeneficio")
-    private Boolean estBeneficio;
+    @Column(name = "estBeneficios")
+    private Boolean estBeneficios;
 
     //RELACIONES
     @ManyToOne
-    @JoinColumn(name="idEmpresa",referencedColumnName ="idEmpresa")
+    @JoinColumn(name="idEmpresas",referencedColumnName ="idEmpresas")
     private Empresas empresas;
 
 }

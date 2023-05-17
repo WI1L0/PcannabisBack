@@ -21,50 +21,50 @@ public class Productos implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idProducto")
-    private Integer idProducto;
+    @Column(name = "idProductos")
+    private Integer idProductos;
 
-    @Column(name = "precioProducto")
-    private String precioProducto;
+    @Column(name = "precioProductos")
+    private String precioProductos;
 
-    @Column(name = "nombreProducto")
-    private String nombreProducto;
+    @Column(name = "nombreProductos")
+    private String nombreProductos;
 
-    @Column(name = "descripcionProducto")
-    private String descripcionProducto;
+    @Column(name = "descripcionProductos")
+    private String descripcionProductos;
 
-    @Column(name = "stockProducto")
-    private Integer stockProducto;
+    @Column(name = "stockProductos")
+    private Integer stockProductos;
 
-    @Column(name = "modeloProducto")
-    private String modeloProducto;
+    @Column(name = "modeloProductos")
+    private String modeloProductos;
 
-    @Column(name = "estProducto")
-    private Boolean estProducto;
+    @Column(name = "estProductos")
+    private Boolean estProductos;
 
     //RELACIONES
     @ManyToOne
-    @JoinColumn(name="idEmpresa",referencedColumnName ="idEmpresa")
+    @JoinColumn(name="idEmpresas",referencedColumnName ="idEmpresas")
     private Empresas empresas;
 
     @JsonIgnore
     @OneToMany(mappedBy = "productos")
-    private List<CaracteristicaProductos> caracteristicaProductos;
+    private List<CaracteristicasProductos> caracteristicaProductos;
 
     @JsonIgnore
     @OneToMany(mappedBy = "productos")
-    private List<FotoProductos> fotoProductos;
+    private List<FotosProductos> fotosProductos;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "productos_categoria",
-            joinColumns = @JoinColumn(name = "idProducto"),
-            inverseJoinColumns = @JoinColumn(name = "idCategoriaProductos")
+            name = "productos_categorias",
+            joinColumns = @JoinColumn(name = "idProductos"),
+            inverseJoinColumns = @JoinColumn(name = "idCategoriasP")
     )
-    private List<CategoriaProductos> categoriaProductos = new ArrayList<>();
+    private List<CategoriasProductos> categoriasProductos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "productos")
-    private List<Reserva> reservas = new ArrayList<>();
+    private List<Reservas> reservas = new ArrayList<>();
 
     //@ManyToMany(mappedBy = "productos")
     //private List<CategoriaProductos> categoriaProductos = new ArrayList<>();

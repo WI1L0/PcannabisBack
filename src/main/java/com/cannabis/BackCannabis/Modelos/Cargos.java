@@ -20,14 +20,14 @@ public class Cargos implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idCargo")
-    private Integer idCargo;
+    @Column(name = "idCargos")
+    private Integer idCargos;
 
-    @Column(name = "nombreCargo")
-    private String nombreCargo;
+    @Column(name = "nombreCargos")
+    private String nombreCargos;
 
-    @Column(name = "estCargo")
-    private Boolean estCargo ;
+    @Column(name = "estCargos")
+    private Boolean estCargos;
 
 
     //RELACIONES

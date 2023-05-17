@@ -13,30 +13,30 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "usosAplicacion")
+@Table(name = "usosAplicaciones")
 public class UsosAplicaciones implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUsosAplicaciones")
-    private Integer idUsosAplicaciones;
+    @Column(name = "idUsosA")
+    private Integer idUsosA;
 
-    @Column(name = "tituloUsosAplicaciones")
-    private String tituloUsosAplicaciones;
+    @Column(name = "tituloUsosA")
+    private String tituloUsosA;
 
-    @Column(name = "descripcionUsosAplicaciones")
-    private String descripcionUsosAplicaciones;
+    @Column(name = "descripcionUsosA")
+    private String descripcionUsosA;
 
-    @Column(name = "fotoUsosAplicaciones")
-    private String fotoUsosAplicaciones;
+    @Column(name = "fotoUsosA")
+    private String fotoUsosA;
 
-    @Column(name = "estUsosAplicaciones")
-    private Boolean estUsosAplicaciones;
+    @Column(name = "estUsosA")
+    private Boolean estUsosA;
 
 
     //RELACIONES
     @ManyToOne
-    @JoinColumn(name="idEmpresa",referencedColumnName ="idEmpresa")
+    @JoinColumn(name="idEmpresas",referencedColumnName ="idEmpresas")
     private Empresas empresas;
 
 }

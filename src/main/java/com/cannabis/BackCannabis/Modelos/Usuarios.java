@@ -21,29 +21,29 @@ public class Usuarios implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUsuario")
-    private Integer idUsuario;
+    @Column(name = "idUsuarios")
+    private Integer idUsuarios;
 
-    @Column(name = "nombreUsuario")
-    private String nombreUsuario;
+    @Column(name = "nombreUsuarios")
+    private String nombreUsuarios;
 
-    @Column(name = "passwordUsuario")
-    private String passwordUsuario;
+    @Column(name = "passwordUsuarios")
+    private String passwordUsuarios;
 
-    @Column(name = "fotoUsuario")
-    private String fotoUsuario;
+    @Column(name = "fotoUsuarios")
+    private String fotoUsuarios;
 
-    @Column(name = "estUsuario")
-    private Boolean estUsuario;
+    @Column(name = "estUsuarios")
+    private Boolean estUsuarios;
 
     //RELACIONES
     @ManyToOne
-    @JoinColumn(name="idPersona",referencedColumnName ="idPersona")
+    @JoinColumn(name="idPersonas",referencedColumnName ="idPersonas")
     private Personas personas;
 
 
     @OneToOne
-    @JoinColumn(name = "idEmpleado")
+    @JoinColumn(name = "idEmpleados")
     private Empleados empleados;
 
     @ManyToMany(mappedBy = "usuarios")
@@ -51,5 +51,5 @@ public class Usuarios implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuarios")
-    private List<Reserva> reservas;
+    private List<Reservas> reservas;
 }

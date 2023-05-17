@@ -16,34 +16,34 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "reserva")
-public class Reserva implements Serializable {
+@Table(name = "reservas")
+public class Reservas implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idReserva")
-    private Integer idReserva;
+    @Column(name = "idReservas")
+    private Integer idReservas;
 
-    @Column(name = "fechaReserva")
-    private LocalDate fechaReserva;
+    @Column(name = "fechaReservas")
+    private LocalDate fechaReservas;
 
-    @Column(name = "cantidadReserva")
-    private Integer cantidadReserva;
+    @Column(name = "cantidadReservas")
+    private Integer cantidadReservas;
 
-    @Column(name = "estReserva")
-    private Boolean estReserva;
+    @Column(name = "estReservas")
+    private Boolean estReservas;
 
     //RELACIONES
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "pedido_productos",
-            joinColumns = @JoinColumn(name = "idProducto"),
-            inverseJoinColumns = @JoinColumn(name = "idReserva")
+            name = "reservas_productos",
+            joinColumns = @JoinColumn(name = "idProductos"),
+            inverseJoinColumns = @JoinColumn(name = "idReservas")
     )
     private List<Productos> productos = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name="idUsuario",referencedColumnName ="idUsuario")
+    @JoinColumn(name="idUsuarios",referencedColumnName ="idUsuarios")
     private Usuarios usuarios;
 
 }
