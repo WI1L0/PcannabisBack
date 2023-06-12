@@ -23,6 +23,9 @@ public class Empresas implements Serializable {
     @Column(name = "idEmpresas")
     private Integer idEmpresas;
 
+    @Column(name = "nombreEmp")
+    private String nombreEmp;
+
     @Column(name = "historia")
     private String historia;
 
