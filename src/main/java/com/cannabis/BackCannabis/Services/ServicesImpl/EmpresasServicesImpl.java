@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EmpresasServicesImpl extends GenericServicesImpl<Empresas, Integer> implements IEmpresasServices {
 
@@ -21,4 +23,9 @@ public class EmpresasServicesImpl extends GenericServicesImpl<Empresas, Integer>
     public CrudRepository<Empresas, Integer> getDao() {
         return iRepository;
     }
+
+//    @Override
+//    public Empresas findByNameEmpresas() {
+//        return iRepository.findByNameEmpresas();
+//    }
 }

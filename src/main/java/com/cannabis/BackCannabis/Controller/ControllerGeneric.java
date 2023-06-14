@@ -11,6 +11,7 @@ public class ControllerGeneric <T> {
         @Autowired
         private JpaRepository<T, Integer> repository;
 
+
         @GetMapping("/")
         public List<T> getAll() {
             return repository.findAll();
