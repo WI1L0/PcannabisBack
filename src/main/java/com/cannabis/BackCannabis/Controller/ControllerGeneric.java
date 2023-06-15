@@ -1,5 +1,6 @@
 package com.cannabis.BackCannabis.Controller;
 
+import com.cannabis.BackCannabis.Services.GenericServicesImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,17 +10,22 @@ import java.util.List;
 
 public class ControllerGeneric <T> {
         @Autowired
-        private JpaRepository<T, Integer> repository;
+        private GenericServicesImpl<T, Integer> repository;
 
 
         @GetMapping("/")
         public List<T> getAll() {
-            return repository.findAll();
+            return repository.findByAll();
         }
 
         @GetMapping("/{id}")
         public T getById(@PathVariable Integer id) {
-            return repository.findById(id).orElse(null);
+            T t = repository.findById(id);
+            if (t != null) {
+                return t;
+            } else {
+                return null;
+            }
         }
 
         @PostMapping("/")
@@ -29,7 +35,7 @@ public class ControllerGeneric <T> {
 
         @PutMapping("/{id}")
         public T update(@PathVariable Integer id, @RequestBody T entity) {
-            T existingEntity = repository.findById(id).orElse(null);
+            T existingEntity = repository.findById(id);
             if (existingEntity != null) {
                 BeanUtils.copyProperties(entity, existingEntity, "id");
                 return repository.save(existingEntity);
@@ -39,6 +45,6 @@ public class ControllerGeneric <T> {
 
         @DeleteMapping("/{id}")
         public void delete(@PathVariable Integer id) {
-            repository.deleteById(id);
+            repository.delete(id);
         }
 }

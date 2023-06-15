@@ -5,6 +5,6 @@ import com.cannabis.BackCannabis.Services.IGenericServices;
 
 public interface IEmpresasServices extends IGenericServices<Empresas,Integer> {
 
-//    public Empresas findByNameEmpresas();
+    public Empresas findByNameEmpresas(String name);
 
 }

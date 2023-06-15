@@ -38,8 +38,23 @@ public class Empresas implements Serializable {
     @Column(name = "direccion")
     private String direccion;
 
-    @Column(name = "valores")
-    private String valores;
+    @Column(name = "valor1")
+    private String valor1;
+
+    @Column(name = "valor2")
+    private String valor2;
+
+    @Column(name = "valor3")
+    private String valor3;
+
+    @Column(name = "valor4")
+    private String valor4;
+
+    @Column(name = "valor5")
+    private String valor5;
+
+    @Column(name = "valor6")
+    private String valor6;
 
     @Column(name = "longitud")
     private Double longitud;
