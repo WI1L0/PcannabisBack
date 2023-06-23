@@ -7,4 +7,7 @@ public interface IUsuariosServices extends IGenericServices<Usuarios,Integer> {
     //public Usuarios findBynombreYpassword(String nombreUsuarios, String passwordUsuarios);
 
     //public Boolean existsBynombreUsuarios (String nombreUsuarios);
+
+    public Usuarios findByUsernameAndPassword(String username, String password);
+
 }

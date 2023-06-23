@@ -11,4 +11,6 @@ public interface IUsuariosRepository extends JpaRepository<Usuarios, Integer> {
 //
 //    public Boolean existsBynombreUsuarios(String nombreUsuarios);
 
+    public Usuarios findByUsernameAndPassword(String username, String password);
+
 }

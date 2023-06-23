@@ -28,4 +28,9 @@ public class UsuariosServicesImpl extends GenericServicesImpl<Usuarios, Integer>
 //    public Boolean existsBynombreUsuarios(String nombreUsuarios) {
 //        return iRepository.existsBynombreUsuarios(nombreUsuarios);
 //    }
+
+    @Override
+    public Usuarios findByUsernameAndPassword(String username, String password) {
+        return iRepository.findByUsernameAndPassword(username, password);
+    }
 }

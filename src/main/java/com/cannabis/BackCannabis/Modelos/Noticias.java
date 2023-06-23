@@ -27,6 +27,9 @@ public class Noticias implements Serializable {
     @Column(name = "tituloNoticias")
     private String tituloNoticias;
 
+    @Column(name = "preDescripcionNoticias")
+    private String preDescripcionNoticias;
+
     @Column(name = "descripcionNoticias")
     private String descripcionNoticias;
 
