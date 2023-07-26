@@ -1,13 +1,39 @@
 package com.cannabis.BackCannabis.Services.IServices;
 
+import com.cannabis.BackCannabis.Dtos.ContactanosDtos;
+import com.cannabis.BackCannabis.Dtos.Respuestas.NoticiasRespuestaDto;
+import com.cannabis.BackCannabis.Dtos.Respuestas.UsuariosRespuestaDto;
+import com.cannabis.BackCannabis.Dtos.UsuariosDtos;
 import com.cannabis.BackCannabis.Modelos.Usuarios;
-import com.cannabis.BackCannabis.Services.IGenericServices;
 
-public interface IUsuariosServices extends IGenericServices<Usuarios,Integer> {
-    //public Usuarios findBynombreYpassword(String nombreUsuarios, String passwordUsuarios);
+import java.util.List;
 
-    //public Boolean existsBynombreUsuarios (String nombreUsuarios);
+public interface IUsuariosServices {
 
-    public Usuarios findByUsernameAndPassword(String username, String password);
+
+//    CRUD
+    List<UsuariosDtos> FindAllS();
+    UsuariosDtos FindByIdS(Long Id);
+    UsuariosDtos SaveS(UsuariosDtos dtos, Long idPersona, String nombreRol, Long idEmpresa);
+    UsuariosDtos UpdateS(Long Id, UsuariosDtos dtos);
+    void DeleteS(Long Id);
+
+
+//    CRUD MODIFICADO
+    UsuariosDtos SaveClienteS(UsuariosDtos dtos, Long idPersona, Long idEmpresa);
+    void LogicoDeleteS(Long Id);
+
+
+//    PAGINACION
+    UsuariosRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa);
+
+
+//    OTROS
+
+//    TRAER TODO POR ATRIBUTO
+//    List<UsuariosDtos> FindAllByEmpresasId(Long Id);
+//    List<UsuariosDtos> FindAllByPersonasRU(Long Id);
+
+
 
 }

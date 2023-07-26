@@ -1,6 +1,6 @@
 package com.cannabis.BackCannabis.Modelos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,65 +8,66 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
 @Table(name = "productos")
 public class Productos implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idProductos")
-    private Integer idProductos;
+    @Column(name = "idProducto")
+    private Long idProducto;
 
-    @Column(name = "precioProductos")
-    private String precioProductos;
+    @Column(name = "nombreProducto")
+    private String nombreProducto;
 
-    @Column(name = "nombreProductos")
-    private String nombreProductos;
+    @Column(name = "preDescripcionProducto")
+    private String preDescripcionProducto;
 
-    @Column(name = "descripcionProductos")
-    private String descripcionProductos;
+    @Column(name = "descripcionProducto")
+    private String descripcionProducto;
 
-    @Column(name = "stockProductos")
-    private Integer stockProductos;
+    @Column(name = "altoProducto")
+    private Double altoProducto;
 
-    @Column(name = "modeloProductos")
-    private String modeloProductos;
+    @Column(name = "anchoProducto")
+    private Double anchoProducto;
 
-    @Column(name = "estProductos")
-    private Boolean estProductos;
+    @Column(name = "stockProducto")
+    private Integer stockProducto;
+
+    @Column(name = "modeloProducto")
+    private String modeloProducto;
+
+    @Column(name = "estProducto")
+    private Boolean estProducto;
 
     //RELACIONES
-    @ManyToOne
-    @JoinColumn(name="idEmpresas",referencedColumnName ="idEmpresas")
-    private Empresas empresas;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idEmpresasR", nullable = false)
+    private Empresas empresasRP;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "productos")
-    private List<CaracteristicasProductos> caracteristicaProductos;
+    @JsonBackReference
+    @OneToMany(mappedBy = "productosRFP", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FotosProductos> fotosProductosSet = new HashSet<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "productos")
-    private List<FotosProductos> fotosProductos;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "productos_categorias", joinColumns = @JoinColumn(name = "idProductoR", referencedColumnName = "idProducto"), inverseJoinColumns = @JoinColumn(name = "idCategoriasProductoR", referencedColumnName = "idCategoriasProducto"))
+    private Set<CategoriasProductos> categoriasProductosSet = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "productos_categorias",
-            joinColumns = @JoinColumn(name = "idProductos"),
-            inverseJoinColumns = @JoinColumn(name = "idCategoriasP")
-    )
-    private List<CategoriasProductos> categoriasProductos = new ArrayList<>();
+    @JsonBackReference
+    @OneToMany(mappedBy = "productosRIP", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<InfoProductos> infProductoSet = new HashSet<>();
 
-    @ManyToMany(mappedBy = "productos")
-    private List<Reservas> reservas = new ArrayList<>();
-
-    //@ManyToMany(mappedBy = "productos")
-    //private List<CategoriaProductos> categoriaProductos = new ArrayList<>();
+    @JsonBackReference
+    @OneToMany(mappedBy = "productosRP", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ProductoReservas> productoReservasSet = new HashSet<>();
 
 }

@@ -14,26 +14,20 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
 @Table(name = "categoriasProductos")
 public class CategoriasProductos implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idCategoriasP")
-    private Integer idCategoriasP;
+    @Column(name = "idCategoriasProducto")
+    private Long idCategoriasProducto;
 
-    @Column(name = "nombreCategoriasP")
-    private String nombreCategoriasP;
+    @Column(name = "nombreCategoriasProducto")
+    private String nombreCategoriasProducto;
 
-    @Column(name = "descripcionCategoriasP")
-    private String descripcionCategoriasP;
-
-    @Column(name = "estCategoriasP")
-    private Boolean estCategoriasP;
-
-    //RELACIONES
-    @ManyToMany(mappedBy = "categoriasProductos")
-    private List<Productos> productos = new ArrayList<>();
+    @Column(name = "estCategoriasProducto")
+    private Boolean estCategoriasProducto;
 
 }

@@ -12,24 +12,25 @@ import java.io.Serializable;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
 @Table(name = "fotosNoticias")
 public class FotosNoticias implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idFotosN")
-    private Integer idFotosN;
+    @Column(name = "idFotosNoticia")
+    private Long idFotosNoticia;
 
-    @Column(name = "fotosN")
-    private String fotosN;
+    @Column(name = "fotosNoticia")
+    private String fotosNoticia;
 
-    @Column(name = "estFotosN")
-    private Boolean estFotosN;
+    @Column(name = "estFotosNoticia")
+    private Boolean estFotosNoticia;
 
     //RELACIONES
-    @ManyToOne
-    @JoinColumn(name="idNoticias",referencedColumnName ="idNoticias")
-    private Noticias noticias;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idNoticiasR", nullable = false)
+    private Noticias noticiasRFN;
 
 }

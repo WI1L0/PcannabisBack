@@ -1,5 +1,6 @@
 package com.cannabis.BackCannabis.Modelos;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,84 +9,70 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
 @Table(name = "empresas")
 public class Empresas implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idEmpresas")
-    private Integer idEmpresas;
+    @Column(name = "idEmpresa")
+    private Long idEmpresa;
 
-    @Column(name = "nombreEmp")
-    private String nombreEmp;
+    @Column(name = "nombreEmpresa")
+    private String nombreEmpresa;
 
-    @Column(name = "historia")
-    private String historia;
+    @Column(name = "telefonoEmpresa")
+    private String telefonoEmpresa;
 
-    @Column(name = "mision")
-    private String mision;
+    @Column(name = "direccionEmpresa")
+    private String direccionEmpresa;
 
-    @Column(name = "vision")
-    private String vision;
+    @Column(name = "urlDireccionEmpresa")
+    private String urlDireccionEmpresa;
 
-    @Column(name = "direccion")
-    private String direccion;
+    @Column(name = "urlDireccionEmpresaGoogle")
+    private String urlDireccionEmpresaGoogle;
 
-    @Column(name = "valor1")
-    private String valor1;
+    @Column(name = "emailEmpresa")
+    private String emailEmpresa;
 
-    @Column(name = "valor2")
-    private String valor2;
+    @Column(name = "celularEmpresa")
+    private String celularEmpresa;
 
-    @Column(name = "valor3")
-    private String valor3;
+    @Column(name = "urlCelularEmpresa")
+    private String urlCelularEmpresa;
 
-    @Column(name = "valor4")
-    private String valor4;
-
-    @Column(name = "valor5")
-    private String valor5;
-
-    @Column(name = "valor6")
-    private String valor6;
-
-    @Column(name = "longitud")
-    private Double longitud;
-
-    @Column(name = "latitud")
-    private Double latitud;
-
-    @Column(name = "estEmpresas")
-    private Boolean estEmpresas;
+    @Column(name = "estEmpresa")
+    private Boolean estEmpresa;
 
     //RELACIONES
-    @JsonIgnore
-    @OneToMany(mappedBy = "empresas")
-    private List<Beneficios> beneficios;
+    @JsonBackReference
+    @OneToMany(mappedBy = "empresasRU", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Usuarios> usuariosSet = new HashSet<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "empresas")
-    private List<UsosAplicaciones> usosAplicaciones;
+    @JsonBackReference
+    @OneToMany(mappedBy = "empresasRFE", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FotosEmpresas> fotosEmpresasSet = new HashSet<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "empresas")
-    private List<Noticias> noticias;
+    @JsonBackReference
+    @OneToMany(mappedBy = "empresasRN", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Noticias> noticiasSet = new HashSet<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "empresas")
-    private List<Productos> productos;
+    @JsonBackReference
+    @OneToMany(mappedBy = "empresasRP", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Productos> productosSet = new HashSet<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "empresas")
-    private List<Empleados> empleados;
-
-
+    @JsonBackReference
+    @OneToMany(mappedBy = "empresasRC", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Contactanos> contactanosSet = new HashSet<>();
 
 }

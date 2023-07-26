@@ -14,28 +14,20 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
 @Table(name = "roles")
 public class Roles implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idRoles")
-    private Integer idRoles;
+    @Column(name = "idRol")
+    private Long idRol;
 
-    @Column(name = "nombreRoles")
-    private String nombreRoles;
+    @Column(name = "nombreRol")
+    private String nombreRol;
 
-    @Column(name = "estRoles")
-    private Boolean estRoles;
-
-    //RELACIONES
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "usuarios_roles",
-            joinColumns = @JoinColumn(name = "idUsuarios"),
-            inverseJoinColumns = @JoinColumn(name = "idRoles")
-    )
-    private List<Usuarios> usuarios = new ArrayList<>();
+    @Column(name = "estRol")
+    private Boolean estRol;
 
 }

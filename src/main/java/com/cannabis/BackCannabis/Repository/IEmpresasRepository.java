@@ -1,18 +1,18 @@
 package com.cannabis.BackCannabis.Repository;
 
 import com.cannabis.BackCannabis.Modelos.Empresas;
+import com.cannabis.BackCannabis.Modelos.Usuarios;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface IEmpresasRepository extends JpaRepository<Empresas, Integer> {
+public interface IEmpresasRepository extends JpaRepository<Empresas, Long> {
 
-    @Query(value="SELECT * FROM empresas e WHERE e.nombre_emp = :nombreEmp", nativeQuery = true)
-    public Empresas findByNameEmpresas(@Param("nombreEmp") String nombreEmp);
-
-//    @Query(value="SELECT e FROM empresas e WHERE e.nombreEmp = nombreEmp, nativeQuery = true)
-//    Empresas findByNameEmpresas(String nombreEmp);
+    Optional<Empresas> findByNombreEmpresaAndEstEmpresaTrue(String nombreEmpresa);
 
 }

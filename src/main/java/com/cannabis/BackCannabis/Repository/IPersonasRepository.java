@@ -1,12 +1,17 @@
 package com.cannabis.BackCannabis.Repository;
 
 import com.cannabis.BackCannabis.Modelos.Personas;
+import com.cannabis.BackCannabis.Modelos.Usuarios;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface IPersonasRepository extends JpaRepository<Personas, Integer> {
+import java.util.Optional;
 
-    //public Boolean existsByCedula(String cedula);
+@Repository
+public interface IPersonasRepository extends JpaRepository<Personas, Long> {
+
+//    public Boolean existsByCedula(String cedula);
+//    Optional<Usuarios> findByCorreo(String correo);
+//    Boolean existsByCorreo(String correo);
 
 }
