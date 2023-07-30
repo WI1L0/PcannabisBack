@@ -1,6 +1,7 @@
 package com.cannabis.BackCannabis.Controller;
 
 import com.cannabis.BackCannabis.Dtos.ContactanosDtos;
+import com.cannabis.BackCannabis.Dtos.NoticiasDtos;
 import com.cannabis.BackCannabis.Dtos.ReservasDtos;
 import com.cannabis.BackCannabis.Dtos.Respuestas.ContactanosRespuestaDto;
 import com.cannabis.BackCannabis.Dtos.Respuestas.NoticiasRespuestaDto;
@@ -22,40 +23,39 @@ public class ContactanosController {
     @Autowired
     private IContactanosServices services;
 
-    @GetMapping("/")
-    public List<ContactanosDtos> listarContactanos(){
-        return services.FindAllS();
-    }
+//    @GetMapping("/")
+//    public List<ContactanosDtos> listarContactanos(){
+//        return services.FindAllS();
+//    }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ContactanosDtos listarContactanosId(@PathVariable("id") Long id){
         return services.FindByIdS(id);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<ContactanosDtos> guardarContactanos(@RequestBody ContactanosDtos dtos){
-        return new ResponseEntity<>(services.SaveS(dtos), HttpStatus.CREATED);
+    @PostMapping("/save/{nombreEmpresa}")
+    public ResponseEntity<ContactanosDtos> guardarContactanos(@RequestBody ContactanosDtos dtos, @PathVariable("nombreEmpresa") String nombreEmpresa){
+        return new ResponseEntity<>(services.SaveS(dtos, nombreEmpresa), HttpStatus.CREATED);
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ContactanosDtos> actualizarContactanos(@RequestBody ContactanosDtos dtos, @PathVariable("id") Long id){
         ContactanosDtos actualizado = services.UpdateS(id, dtos);
         return new ResponseEntity<>(actualizado, HttpStatus.OK);
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/Definitivo/{id}")
-    public ResponseEntity<String> eliminarDefinitivoContactanos(@PathVariable("id") Long id){
-        services.DeleteS(id);
-        return new ResponseEntity<>("Contactano eliminado definitivamente con exito", HttpStatus.OK);
-    }
+//    @DeleteMapping("/Definitivo/{id}")
+//    public ResponseEntity<String> eliminarDefinitivoContactanos(@PathVariable("id") Long id){
+//        services.DeleteS(id);
+//        return new ResponseEntity<>("Contactano eliminado definitivamente con exito", HttpStatus.OK);
+//    }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarLogicamenteContactanos(@PathVariable("id") Long id){
-        services.LogicoDeleteS(id);
-        return new ResponseEntity<>("Contactano eliminado logicamente con exito", HttpStatus.OK);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ContactanosDtos> eliminarLogicamenteContactanos(@PathVariable("id") Long id){
+        return new ResponseEntity<>(services.LogicoDeleteS(id), HttpStatus.OK);
     }
 
     //    USADO: PC
@@ -69,10 +69,28 @@ public class ContactanosController {
         return services.FindAllPaginacionS(numeroDePagina, medidaDePagina, ordenarPor, sortDir, estado, nombreEmpresa);
     }
 
+    @GetMapping("/all/paginacion/busqueda/{nombreEmpresa}/{nombreOrEmail}")
+    public ContactanosRespuestaDto buscarPorNombreOrEmail(@RequestParam(value = "pageNo", defaultValue = AppConstantes.NUMERO_DE_PAGINA_POR_DEFECTO, required = false) int numeroDePagina,
+                                                      @RequestParam(value = "pageSize", defaultValue = AppConstantes.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int medidaDePagina,
+//                                                         @RequestParam(value = "sortBy", defaultValue = AppConstantes.ORDENAR_POR_DEFECTO_NOTICIAS, required = false) String ordenarPor,
+//                                                         @RequestParam(value = "sortDir", defaultValue = AppConstantes.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sortDir,
+                                                      @RequestParam(value = "estado", defaultValue = AppConstantes.ACTIVO_DESCATIVO, required = false) String estado,
+                                                      @PathVariable("nombreEmpresa") String nombreEmpresa, @PathVariable("nombreOrEmail") String nombreOrEmail){
+        return services.FindByNombreOrEmail(numeroDePagina, medidaDePagina, estado, nombreEmpresa, nombreOrEmail);
+    }
+
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/update/estado/{id}")
+    public ResponseEntity<ContactanosDtos> actualizarContactanosEstado(@PathVariable("id") Long id){
+        return new ResponseEntity<>(services.updateEstado(id), HttpStatus.OK);
+    }
+}
+
+
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
 //    @GetMapping("/empresa/{id}")
 //    public List<ContactanosDtos> listarContactanosPorEmpresaId(@PathVariable("id") Long id){
 //        return services.FindAllByEmpresasId(id);
 //    }
 
-}
+

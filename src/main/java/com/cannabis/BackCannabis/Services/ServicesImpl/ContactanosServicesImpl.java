@@ -1,14 +1,11 @@
 package com.cannabis.BackCannabis.Services.ServicesImpl;
 
 import com.cannabis.BackCannabis.Dtos.ContactanosDtos;
-import com.cannabis.BackCannabis.Dtos.PersonasDtos;
+import com.cannabis.BackCannabis.Dtos.NoticiasDtos;
 import com.cannabis.BackCannabis.Dtos.Respuestas.ContactanosRespuestaDto;
-import com.cannabis.BackCannabis.Dtos.Respuestas.UsuariosRespuestaDto;
-import com.cannabis.BackCannabis.Dtos.UsuariosDtos;
 import com.cannabis.BackCannabis.Modelos.Contactanos;
 import com.cannabis.BackCannabis.Modelos.Empresas;
-import com.cannabis.BackCannabis.Modelos.Personas;
-import com.cannabis.BackCannabis.Modelos.Usuarios;
+import com.cannabis.BackCannabis.Modelos.Noticias;
 import com.cannabis.BackCannabis.Repository.IContactanosRepository;
 import com.cannabis.BackCannabis.Repository.IEmpresasRepository;
 import com.cannabis.BackCannabis.Services.IServices.IContactanosServices;
@@ -35,14 +32,6 @@ public class ContactanosServicesImpl implements IContactanosServices {
     @Autowired
     private IEmpresasRepository empresasRepository;
 
-
-    @Override
-    public List<ContactanosDtos> FindAllS() {
-        List<ContactanosDtos> contactanosDtosList = new ArrayList<>();
-        repository.findAll().forEach(data -> contactanosDtosList.add(mapearDTO(data)));
-        return contactanosDtosList;
-    }
-
     @Override
     public ContactanosDtos FindByIdS(Long Id) {
         Contactanos contactanos = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Contactanos", "Id", Id));
@@ -50,9 +39,11 @@ public class ContactanosServicesImpl implements IContactanosServices {
     }
 
     @Override
-    public ContactanosDtos SaveS(ContactanosDtos dtos) {
-        Contactanos contactanos = repository.save(mapearEntidad(dtos));
-        return mapearDTO(contactanos);
+    public ContactanosDtos SaveS(ContactanosDtos dtos, String nombreEmpresa) {
+        Empresas empresas = empresasRepository.findByNombreEmpresaAndEstEmpresaTrue(nombreEmpresa).orElseThrow(() -> new ResourceNotFoundExeptionString("Noticias-save-empresa", "Id", nombreEmpresa));;
+        Contactanos contactanos = mapearEntidad(dtos);
+        contactanos.setEmpresasRC(empresas);
+        return mapearDTO(repository.save(contactanos));
     }
 
     @Override
@@ -69,19 +60,19 @@ public class ContactanosServicesImpl implements IContactanosServices {
         return mapearDTO(repository.save(contactanos));
     }
 
-    @Override
-    public void DeleteS(Long Id) {
-        Contactanos contactanos = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Contactanos", "Id", Id));
-        repository.delete(contactanos);
-    }
+//    @Override
+//    public void DeleteS(Long Id) {
+//        Contactanos contactanos = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Contactanos", "Id", Id));
+//        repository.delete(contactanos);
+//    }
 
     @Override
-    public void LogicoDeleteS(Long Id) {
+    public ContactanosDtos LogicoDeleteS(Long Id) {
         Contactanos contactanos = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Contactanos", "Id", Id));
 
         contactanos.setEstContactanos(!contactanos.getEstContactanos());
 
-        repository.save(contactanos);
+        return mapearDTO(repository.save(contactanos));
     }
 
 
@@ -89,42 +80,58 @@ public class ContactanosServicesImpl implements IContactanosServices {
     public ContactanosRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
         Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina, sort);
+        Page<Contactanos> contactanos = null;
 
-        Page<Contactanos> contactanos = repository.findAll(pageable);
-        List<Contactanos> listaContactanosAll = contactanos.getContent();
-        List<Contactanos> listaContactanos = new ArrayList<>();
-
-        Empresas empresas = empresasRepository.findByNombreEmpresaAndEstEmpresaTrue(nombreEmpresa).orElseThrow(() -> new ResourceNotFoundExeptionString("Contactanos-Empresa", "id", nombreEmpresa));
-
-        if (estado.equals("all")) {
-            for (int a = 0 ; a < listaContactanosAll.size() ; a++){
-                if (listaContactanosAll.get(a).getEmpresasRC().getIdEmpresa() == empresas.getIdEmpresa()){
-                    listaContactanos.add(listaContactanosAll.get(a));
-                }
-            }
-        } else {
-            for (int a = 0 ; a < listaContactanosAll.size() ; a++){
-                if (estado.equalsIgnoreCase("activo") && listaContactanosAll.get(a).getEstContactanos() == true && listaContactanosAll.get(a).getEmpresasRC().getIdEmpresa() == empresas.getIdEmpresa()){
-                    listaContactanos.add(listaContactanosAll.get(a));
-                }
-                if (estado.equalsIgnoreCase("desactivo") && listaContactanosAll.get(a).getEstContactanos() == false && listaContactanosAll.get(a).getEmpresasRC().getIdEmpresa() == empresas.getIdEmpresa()){
-                    listaContactanos.add(listaContactanosAll.get(a));
-                }
-            }
+        if (estado.equalsIgnoreCase("activo")) {
+            contactanos = repository.findByEstOcultoVisibleContactanosAndEstContactanosTrueAndEmpresasRCNombreEmpresaAndEmpresasRCEstEmpresaTrue(true, nombreEmpresa, pageable);
+        }
+        if (estado.equalsIgnoreCase("desactivo")) {
+            contactanos = repository.findByEstOcultoVisibleContactanosAndEstContactanosTrueAndEmpresasRCNombreEmpresaAndEmpresasRCEstEmpresaTrue(false, nombreEmpresa, pageable);
+        }
+        if (estado.equalsIgnoreCase("all")) {
+            contactanos = repository.findByEstContactanosTrueAndEmpresasRCNombreEmpresaAndEmpresasRCEstEmpresaTrue(nombreEmpresa, pageable);
         }
 
-        List<ContactanosDtos> contenidoContactanos = listaContactanos.stream().map(contact -> mapearDTO(contact)).collect(Collectors.toList());
-
-//        solo para enviar los datos de paginacion
-        Page<Contactanos> contactanosPage = new PageImpl<>(listaContactanos);
+        List<ContactanosDtos> contenidoContactanos = contactanos.stream().map(contact -> mapearDTO(contact)).collect(Collectors.toList());
 
         ContactanosRespuestaDto contactanosRespuestaDto = new ContactanosRespuestaDto();
         contactanosRespuestaDto.setContenido(contenidoContactanos);
-        contactanosRespuestaDto.setNumeroPagina(contactanosPage.getNumber());
-        contactanosRespuestaDto.setMedidaPagina(contactanosPage.getSize());
-        contactanosRespuestaDto.setTotalElementos(contactanosPage.getTotalElements());
-        contactanosRespuestaDto.setTotalPagina(contactanosPage.getTotalPages());
-        contactanosRespuestaDto.setUltima(contactanosPage.isLast());
+        contactanosRespuestaDto.setNumeroPagina(contactanos.getNumber());
+        contactanosRespuestaDto.setMedidaPagina(contactanos.getSize());
+        contactanosRespuestaDto.setTotalElementos(contactanos.getTotalElements());
+        contactanosRespuestaDto.setTotalPagina(contactanos.getTotalPages());
+        contactanosRespuestaDto.setUltima(contactanos.isLast());
+
+        return contactanosRespuestaDto;
+    }
+
+    @Override
+    public ContactanosRespuestaDto FindByNombreOrEmail(int numeroDePagina, int medidaDePagina, String estado, String nombreEmpresa, String nombreOrEmail) {
+        Empresas empresas = empresasRepository.findByNombreEmpresaAndEstEmpresaTrue(nombreEmpresa).orElseThrow(() -> new ResourceNotFoundExeptionString("Noticias-Empresa", "id", nombreEmpresa));
+
+        Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina);
+
+        Page<Contactanos> contactanos = null;
+
+        if (estado.equalsIgnoreCase("activo")) {
+            contactanos = repository.buscarPorNombreOrEmailEstado(nombreOrEmail, empresas.getIdEmpresa(),  true, pageable);
+        }
+        if (estado.equalsIgnoreCase("desactivo")) {
+            contactanos = repository.buscarPorNombreOrEmailEstado(nombreOrEmail, empresas.getIdEmpresa(),  false, pageable);
+        }
+        if (estado.equalsIgnoreCase("all")) {
+            contactanos = repository.buscarPorNombreOrEmailAll(nombreOrEmail, empresas.getIdEmpresa(), pageable);
+        }
+
+        List<ContactanosDtos> contenidoContactanos = contactanos.stream().map(contact -> mapearDTO(contact)).collect(Collectors.toList());
+
+        ContactanosRespuestaDto contactanosRespuestaDto = new ContactanosRespuestaDto();
+        contactanosRespuestaDto.setContenido(contenidoContactanos);
+        contactanosRespuestaDto.setNumeroPagina(contactanos.getNumber());
+        contactanosRespuestaDto.setMedidaPagina(contactanos.getSize());
+        contactanosRespuestaDto.setTotalElementos(contactanos.getTotalElements());
+        contactanosRespuestaDto.setTotalPagina(contactanos.getTotalPages());
+        contactanosRespuestaDto.setUltima(contactanos.isLast());
 
         return contactanosRespuestaDto;
     }
@@ -137,6 +144,17 @@ public class ContactanosServicesImpl implements IContactanosServices {
 //        return contactanosDtosList;
 //    }
 
+    @Override
+    public ContactanosDtos updateEstado(Long id) {
+        Contactanos contactanos = repository.findById(id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Contactanos-update-estado", "Id", id));
+
+        if (contactanos.getEstOcultoVisibleContactanos() == false) {
+            contactanos.setEstOcultoVisibleContactanos(true);
+        } else {
+            contactanos.setEstOcultoVisibleContactanos(false);
+        }
+        return mapearDTO(repository.save(contactanos));
+    }
 
     //    METODOS REUTILIZABLES
     private Contactanos mapearEntidad(ContactanosDtos Dto) {

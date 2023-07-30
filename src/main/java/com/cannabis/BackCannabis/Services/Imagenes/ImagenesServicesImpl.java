@@ -16,6 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ImagenesServicesImpl implements IImagenesServices {
@@ -39,7 +42,9 @@ public class ImagenesServicesImpl implements IImagenesServices {
                 throw new ImagenExeption("No se pudo almacenar el archivo esta vacío.");
             }
 
-            String filename = file.getOriginalFilename();
+            String originalFilename = file.getOriginalFilename();
+            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            String filename = UUID.randomUUID().toString() + extension;
             Path destinationFile = rootLocation.resolve(Paths.get(filename)).normalize().toAbsolutePath();
 
             try (InputStream inputStream = file.getInputStream()) {
@@ -66,6 +71,16 @@ public class ImagenesServicesImpl implements IImagenesServices {
             }
         } catch (MalformedURLException e){
             throw new ImagenExeption("No se pudo leer el archivo: " + filename);
+        }
+    }
+
+    @Override
+    public Boolean delete(String filename) {
+        try {
+            Path file = rootLocation.resolve(filename);
+            return Files.deleteIfExists(file);
+        } catch (IOException e) {
+            throw new ImagenExeption("No se pudo eliminar el archivo: " + filename);
         }
     }
 }

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Setter
 @Getter
@@ -14,7 +15,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "contactanos")
-public class Contactanos {
+public class Contactanos implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +36,9 @@ public class Contactanos {
 
     @Column(name = "detalleContactanos")
     private String detalleContactanos;
+
+    @Column(name = "estOcultoVisibleContactanos")
+    private Boolean estOcultoVisibleContactanos;
 
     @Column(name = "estContactanos")
     private Boolean estContactanos;

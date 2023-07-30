@@ -7,10 +7,14 @@ import com.cannabis.BackCannabis.Services.IServices.IPersonasServices;
 import com.cannabis.BackCannabis.excepciones.ResourceNotFoundExeptionLong;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonasServicesImpl implements IPersonasServices {
@@ -22,12 +26,12 @@ public class PersonasServicesImpl implements IPersonasServices {
     private IPersonasRepository repository;
 
 
-    @Override
-    public List<PersonasDtos> FindAllS() {
-        List<PersonasDtos> personasDtosList = new ArrayList<>();
-        repository.findAll().forEach(data -> personasDtosList.add(mapearDTO(data)));
-        return personasDtosList;
-    }
+//    @Override
+//    public List<PersonasDtos> FindAllS() {
+//        List<PersonasDtos> personasDtosList = new ArrayList<>();
+//        repository.findAll().forEach(data -> personasDtosList.add(mapearDTO(data)));
+//        return personasDtosList;
+//    }
 
     @Override
     public PersonasDtos FindByIdS(Long Id) {
@@ -61,20 +65,47 @@ public class PersonasServicesImpl implements IPersonasServices {
         return mapearDTO(repository.save(personas));
     }
 
-    @Override
-    public void DeleteS(Long Id) {
-        Personas personas = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Personas", "Id", Id));
-        repository.delete(personas);
-    }
+//    @Override
+//    public void DeleteS(Long Id) {
+//        Personas personas = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Personas", "Id", Id));
+//        repository.delete(personas);
+//    }
 
     @Override
     public void LogicoDeleteS(Long Id) {
         Personas personas = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Personas", "Id", Id));
-
         personas.setEstPersona(!personas.getEstPersona());
-
         repository.save(personas);
     }
+
+//    @Override
+//    public PersonasRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa) {
+//        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(ordenarPor).ascending() : Sort.by(ordenarPor).descending();
+//        Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina, sort);
+//        Page<Personas> personas = null;
+//
+//        if (estado.equalsIgnoreCase("activo")) {
+//            personas = repository.findByEstOcultoVisibleNoticiaAndEstNoticiaTrueAndEmpresasRNNombreEmpresaAndEmpresasRNEstEmpresaTrue(true, nombreEmpresa, pageable);
+//        }
+//        if (estado.equalsIgnoreCase("desactivo")) {
+//            personas = repository.findByEstOcultoVisibleNoticiaAndEstNoticiaTrueAndEmpresasRNNombreEmpresaAndEmpresasRNEstEmpresaTrue(false, nombreEmpresa, pageable);
+//        }
+//        if (estado.equalsIgnoreCase("all")) {
+//            personas = repository.findByEstNoticiaTrueAndEmpresasRNNombreEmpresaAndEmpresasRNEstEmpresaTrue(nombreEmpresa, pageable);
+//        }
+//
+//        List<PersonasDtos> contenidoPersonas = personas.getContent().stream().map(persona -> mapearDTO(persona)).collect(Collectors.toList());
+//
+//        PersonasRespuestaDto personasRespuestaDto = new PersonasRespuestaDto();
+//        personasRespuestaDto.setContenido(contenidoPersonas);
+//        personasRespuestaDto.setNumeroPagina(personas.getNumber());
+//        personasRespuestaDto.setMedidaPagina(personas.getSize());
+//        personasRespuestaDto.setTotalElementos(personas.getTotalElements());
+//        personasRespuestaDto.setTotalPagina(personas.getTotalPages() - 1);
+//        personasRespuestaDto.setUltima(personas.isLast());
+//
+//        return personasRespuestaDto;
+//    }
 
 
     //    METODOS REUTILIZABLES

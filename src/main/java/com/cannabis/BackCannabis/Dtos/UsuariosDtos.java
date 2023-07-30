@@ -20,4 +20,6 @@ public class UsuariosDtos {
     private String fotoUsuario;
     private Boolean estUsuario;
 
+    private PersonasDtos personasDtos;
+
 }

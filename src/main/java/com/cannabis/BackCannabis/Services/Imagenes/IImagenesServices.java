@@ -13,4 +13,6 @@ public interface IImagenesServices {
 
     Resource findOne(String filename);
 
+    Boolean delete(String filename);
+
 }

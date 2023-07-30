@@ -46,11 +46,11 @@ public class EmpresasController {
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/Definitivo/{id}")
-    public ResponseEntity<String> eliminarDefinitivoEmpresas(@PathVariable("id") Long id){
-        services.DeleteS(id);
-        return new ResponseEntity<>("Empresa eliminado definitivamente con exito", HttpStatus.OK);
-    }
+//    @DeleteMapping("/Definitivo/{id}")
+//    public ResponseEntity<String> eliminarDefinitivoEmpresas(@PathVariable("id") Long id){
+//        services.DeleteS(id);
+//        return new ResponseEntity<>("Empresa eliminado definitivamente con exito", HttpStatus.OK);
+//    }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")

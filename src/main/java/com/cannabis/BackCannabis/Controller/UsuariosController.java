@@ -30,14 +30,14 @@ public class UsuariosController {
     @Autowired
     private IUsuariosServices services;
 
-    @Autowired
+//    @Autowired
 //    private PasswordEncoder passwordEncoder;
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/all/")
-    public List<UsuariosDtos> listarUsuarios(){
-        return services.FindAllS();
-    }
+//    @GetMapping("/all/{nombreEmpresa}")
+//    public List<UsuariosDtos> listarUsuarios(@PathVariable String nombreEmpresa){
+//        return services.FindAllS(nombreEmpresa);
+//    }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/id/{id}")
@@ -47,21 +47,14 @@ public class UsuariosController {
 
 //    USADO: PC
     @PostMapping("/save/persona/{idPersona}/rol/{idRol}/empresa/{idEmpresa}")
-    public ResponseEntity<UsuariosDtos> guardarUsuarios(@RequestBody UsuariosDtos dtos, @PathVariable("idPersona") Long idPersona, @PathVariable("idRol") String idRol, @PathVariable("idEmpresa") Long idEmpresa){
-        return new ResponseEntity<>(services.SaveS(dtos, idPersona, idRol, idEmpresa), HttpStatus.CREATED);
+    public ResponseEntity<UsuariosDtos> guardarUsuarios(@RequestBody UsuariosDtos dtos, @PathVariable("idPersona") Long idPersona, @PathVariable("idRol") String idRol, @PathVariable("idEmpresa") String nombreEmpresa){
+        return new ResponseEntity<>(services.SaveS(dtos, idPersona, idRol, nombreEmpresa), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<UsuariosDtos> actualizarUsuarios(@RequestBody UsuariosDtos dtos, @PathVariable("id") Long id){
         UsuariosDtos actualizado = services.UpdateS(id, dtos);
         return new ResponseEntity<>(actualizado, HttpStatus.OK);
-    }
-
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/Definitivo/{id}")
-    public ResponseEntity<String> eliminarDefinitivoUsuarios(@PathVariable("id") Long id){
-        services.DeleteS(id);
-        return new ResponseEntity<>("Usuario eliminado definitivamente con exito", HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -72,8 +65,8 @@ public class UsuariosController {
 
 //    USADO: PC
     @PostMapping("/save/cliente/persona/{idPersona}/empresa/{idEmpresa}")
-    public ResponseEntity<UsuariosDtos> guardarUsuariosRolCliente(@RequestBody UsuariosDtos dtos, @PathVariable("idPersona") Long idPersona, @PathVariable("idEmpresa") Long idEmpresa){
-        return new ResponseEntity<>(services.SaveClienteS(dtos, idPersona, idEmpresa), HttpStatus.CREATED);
+    public ResponseEntity<UsuariosDtos> guardarUsuariosRolCliente(@RequestBody UsuariosDtos dtos, @PathVariable("idPersona") Long idPersona, @PathVariable("idEmpresa") String nombreEmpresa){
+        return new ResponseEntity<>(services.SaveClienteS(dtos, idPersona, nombreEmpresa), HttpStatus.CREATED);
     }
 
     @GetMapping("/all/paginacion/{nombreEmpresa}")
@@ -81,9 +74,17 @@ public class UsuariosController {
                                                                  @RequestParam(value = "pageSize", defaultValue = AppConstantes.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int medidaDePagina,
                                                                  @RequestParam(value = "sortBy", defaultValue = AppConstantes.ORDENAR_POR_DEFECTO_USUARIO_PERSONA, required = false) String ordenarPor,
                                                                  @RequestParam(value = "sortDir", defaultValue = AppConstantes.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sortDir,
-                                                                 @RequestParam(value = "estado", defaultValue = AppConstantes.ACTIVO_DESCATIVO, required = false) String estado,
                                                                  @PathVariable("nombreEmpresa") String nombreEmpresa){
-        return services.FindAllPaginacionS(numeroDePagina, medidaDePagina, ordenarPor, sortDir, estado, nombreEmpresa);
+        return services.FindAllPaginacionS(numeroDePagina, medidaDePagina, ordenarPor, sortDir, nombreEmpresa);
+    }
+
+    @GetMapping("/all/paginacion/busqueda/{nombreEmpresa}/{cedulaOrApellido1}")
+    public UsuariosRespuestaDto buscarPorCedulaOrApellido1(@RequestParam(value = "pageNo", defaultValue = AppConstantes.NUMERO_DE_PAGINA_POR_DEFECTO, required = false) int numeroDePagina,
+                                                                 @RequestParam(value = "pageSize", defaultValue = AppConstantes.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int medidaDePagina,
+                                                                 @RequestParam(value = "sortBy", defaultValue = AppConstantes.ORDENAR_POR_DEFECTO_USUARIO_PERSONA, required = false) String ordenarPor,
+                                                                 @RequestParam(value = "sortDir", defaultValue = AppConstantes.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sortDir,
+                                                                 @PathVariable("nombreEmpresa") String nombreEmpresa, @PathVariable("cedulaOrApellido1") String cedulaOrApellido1){
+        return services.FindByCedulaAndApellido1(numeroDePagina, medidaDePagina, ordenarPor, sortDir, nombreEmpresa, cedulaOrApellido1);
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")

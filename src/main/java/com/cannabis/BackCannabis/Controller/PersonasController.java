@@ -18,10 +18,10 @@ public class PersonasController {
     private IPersonasServices services;
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/")
-    public List<PersonasDtos> listarPersonas(){
-        return services.FindAllS();
-    }
+//    @GetMapping("/")
+//    public List<PersonasDtos> listarPersonas(){
+//        return services.FindAllS();
+//    }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
@@ -42,11 +42,11 @@ public class PersonasController {
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/Definitivo/{id}")
-    public ResponseEntity<String> eliminarDefinitivoPersonas(@PathVariable("id") Long id){
-        services.DeleteS(id);
-        return new ResponseEntity<>("Persona eliminado definitivamente con exito", HttpStatus.OK);
-    }
+//    @DeleteMapping("/Definitivo/{id}")
+//    public ResponseEntity<String> eliminarDefinitivoPersonas(@PathVariable("id") Long id){
+//        services.DeleteS(id);
+//        return new ResponseEntity<>("Persona eliminado definitivamente con exito", HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarLogicamentePersonas(@PathVariable("id") Long id){

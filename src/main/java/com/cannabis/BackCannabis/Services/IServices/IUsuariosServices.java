@@ -12,21 +12,21 @@ public interface IUsuariosServices {
 
 
 //    CRUD
-    List<UsuariosDtos> FindAllS();
+//    List<UsuariosDtos> FindAllS();
     UsuariosDtos FindByIdS(Long Id);
-    UsuariosDtos SaveS(UsuariosDtos dtos, Long idPersona, String nombreRol, Long idEmpresa);
+    UsuariosDtos SaveS(UsuariosDtos dtos, Long idPersona, String nombreRol, String nombreEmpresa);
     UsuariosDtos UpdateS(Long Id, UsuariosDtos dtos);
-    void DeleteS(Long Id);
+//    void DeleteS(Long Id);
 
 
 //    CRUD MODIFICADO
-    UsuariosDtos SaveClienteS(UsuariosDtos dtos, Long idPersona, Long idEmpresa);
+    UsuariosDtos SaveClienteS(UsuariosDtos dtos, Long idPersona, String nombreEmpresa);
     void LogicoDeleteS(Long Id);
 
 
 //    PAGINACION
-    UsuariosRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa);
-
+    UsuariosRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String nombreEmpresa);
+    UsuariosRespuestaDto FindByCedulaAndApellido1(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String nombreEmpresa, String celulaOrapellido1);
 
 //    OTROS
 

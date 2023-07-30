@@ -1,10 +1,7 @@
 package com.cannabis.BackCannabis.Services.ServicesImpl;
 
-import com.cannabis.BackCannabis.Dtos.ContactanosDtos;
 import com.cannabis.BackCannabis.Dtos.NoticiasDtos;
-import com.cannabis.BackCannabis.Dtos.Respuestas.ContactanosRespuestaDto;
 import com.cannabis.BackCannabis.Dtos.Respuestas.NoticiasRespuestaDto;
-import com.cannabis.BackCannabis.Modelos.Contactanos;
 import com.cannabis.BackCannabis.Modelos.Empresas;
 import com.cannabis.BackCannabis.Modelos.Noticias;
 import com.cannabis.BackCannabis.Repository.IEmpresasRepository;
@@ -18,7 +15,6 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

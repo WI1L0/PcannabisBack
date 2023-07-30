@@ -17,7 +17,6 @@ import java.util.List;
 public class UsuariosRespuestaDto {
 
     private List<UsuariosDtos> contenidoUsuarios;
-    private List<PersonasDtos> contenidoPersonas;
     private int numeroPagina;
     private int medidaPagina;
     private long totalElementos;

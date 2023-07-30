@@ -56,12 +56,12 @@ public class EmpresasServicesImpl implements IEmpresasServices {
 
         return mapearDTO(repository.save(empresas));
     }
-
-    @Override
-    public void DeleteS(Long Id) {
-        Empresas empresas = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Empresas", "Id", Id));
-        repository.delete(empresas);
-    }
+//
+//    @Override
+//    public void DeleteS(Long Id) {
+//        Empresas empresas = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Empresas", "Id", Id));
+//        repository.delete(empresas);
+//    }
 
     @Override
     public void LogicoDeleteS(Long Id) {

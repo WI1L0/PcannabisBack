@@ -14,7 +14,7 @@ public interface IEmpresasServices {
     EmpresasDtos FindByIdS(Long Id);
     EmpresasDtos SaveS(EmpresasDtos dtos);
     EmpresasDtos UpdateS(Long Id, EmpresasDtos dtos);
-    void DeleteS(Long Id);
+//    void DeleteS(Long Id);
 
 
 //    CRUD MODIFICADO

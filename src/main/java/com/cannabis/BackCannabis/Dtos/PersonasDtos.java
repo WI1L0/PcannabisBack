@@ -34,4 +34,6 @@ public class PersonasDtos {
     private String barrio;
     private Boolean estPersona;
 
+//    private UsuariosDtos usuariosDtos;
+
 }

@@ -8,11 +8,11 @@ import java.util.List;
 public interface IPersonasServices {
 
 //    CRUD
-    List<PersonasDtos> FindAllS();
+//    List<PersonasDtos> FindAllS();
     PersonasDtos FindByIdS(Long Id);
     PersonasDtos SaveS(PersonasDtos dtos);
     PersonasDtos UpdateS(Long Id, PersonasDtos dtos);
-    void DeleteS(Long Id);
+//    void DeleteS(Long Id);
 
 
 //    CRUD MODIFICADO

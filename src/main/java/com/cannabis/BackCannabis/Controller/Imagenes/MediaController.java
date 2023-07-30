@@ -22,7 +22,6 @@ import java.util.Map;
 public class MediaController {
 
     private final IImagenesServices storageServicio;
-    private final HttpServletRequest request;
 
     @PostMapping("/save")
     public Map<String, String> uploadFileOne (@RequestParam("file")MultipartFile multipartFile) {
@@ -35,6 +34,15 @@ public class MediaController {
         Resource file = storageServicio.findOne(filename);
         String contentType = Files.probeContentType(file.getFile().toPath());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, contentType).body(file);
+    }
+
+    @DeleteMapping("/delete/{filename:.+}")
+    public ResponseEntity<Boolean> deleteFileOne(@PathVariable String filename) {
+        if (storageServicio.delete(filename)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

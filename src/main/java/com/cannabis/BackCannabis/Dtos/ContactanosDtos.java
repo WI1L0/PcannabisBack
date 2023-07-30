@@ -20,6 +20,7 @@ public class ContactanosDtos {
     private String emailContactanos;
     private String asuntoContactanos;
     private String detalleContactanos;
+    private Boolean estOcultoVisibleContactanos;
     private Boolean estContactanos;
 
 }

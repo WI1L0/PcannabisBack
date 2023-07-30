@@ -1,6 +1,8 @@
 package com.cannabis.BackCannabis.Services.ServicesImpl;
 
+import com.cannabis.BackCannabis.Dtos.NoticiasDtos;
 import com.cannabis.BackCannabis.Dtos.PersonasDtos;
+import com.cannabis.BackCannabis.Dtos.Respuestas.NoticiasRespuestaDto;
 import com.cannabis.BackCannabis.Dtos.Respuestas.UsuariosRespuestaDto;
 import com.cannabis.BackCannabis.Dtos.UsuariosDtos;
 import com.cannabis.BackCannabis.Modelos.*;
@@ -15,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,12 +43,12 @@ public class UsuariosServicesImpl implements IUsuariosServices {
     private IPersonasRepository personasRepository;
 
 
-    @Override
-    public List<UsuariosDtos> FindAllS() {
-        List<UsuariosDtos> usuariosDtosList = new ArrayList<>();
-        repository.findAll().forEach(data -> usuariosDtosList.add(mapearDTO(data)));
-        return usuariosDtosList;
-    }
+//    @Override
+//    public List<UsuariosDtos> FindAllS() {
+//        List<UsuariosDtos> usuariosDtosList = new ArrayList<>();
+//        repository.findAll().forEach(data -> usuariosDtosList.add(mapearDTO(data)));
+//        return usuariosDtosList;
+//    }
 
     @Override
     public UsuariosDtos FindByIdS(Long Id) {
@@ -54,14 +57,14 @@ public class UsuariosServicesImpl implements IUsuariosServices {
     }
 
     @Override
-    public UsuariosDtos SaveS(UsuariosDtos dtos, Long idPersona, String nombreRol, Long idEmpresa) {
+    public UsuariosDtos SaveS(UsuariosDtos dtos, Long idPersona, String nombreRol, String nombreEmpresa) {
 
         Usuarios usuarios = mapearEntidad(dtos);
 
         Personas personas = modelMapper.map(personasRepository.findById(idPersona).orElseThrow(() -> new ResourceNotFoundExeptionLong("Usuario-Persona", "id", idPersona)), Personas.class);
         usuarios.setPersonasRU(personas);
 
-        Empresas empresas = modelMapper.map(empresasRepository.findById(idEmpresa).orElseThrow(() -> new ResourceNotFoundExeptionLong("Usuario-Empresa", "id", idEmpresa)), Empresas.class);
+        Empresas empresas = modelMapper.map(empresasRepository.findByNombreEmpresaAndEstEmpresaTrue(nombreEmpresa).orElseThrow(() -> new ResourceNotFoundExeptionString("Usuario-Empresa", "id", nombreEmpresa)), Empresas.class);
         usuarios.setEmpresasRU(empresas);
 
         Roles roles = rolesRepository.findBynombreRol(nombreRol).orElseThrow(() -> new ResourceNotFoundExeptionString("Usuario-Roles", "name", nombreRol));;
@@ -82,31 +85,35 @@ public class UsuariosServicesImpl implements IUsuariosServices {
         return mapearDTO(repository.save(usuarios));
     }
 
-    @Override
-    public void DeleteS(Long Id) {
-        Usuarios usuarios = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Usuarios", "Id", Id));
-        repository.delete(usuarios);
-    }
-
+    @Transactional
     @Override
     public void LogicoDeleteS(Long Id) {
         Usuarios usuarios = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Usuarios", "Id", Id));
-
-        usuarios.setEstUsuario(!usuarios.getEstUsuario());
+        Personas personas = personasRepository.findById(usuarios.getPersonasRU().getIdPersona()).orElseThrow(() -> new ResourceNotFoundExeptionLong("Empresa-Usuarios", "Id", Id));
+        List<Usuarios> usuariosList = repository.findByPersonasRUAndEstUsuarioTrue(personas);
+        if (usuariosList.size() == 1){
+            if (repository.EliminarPersona(usuarios.getPersonasRU().getIdPersona()) <= 0) {
+                throw new ResourceNotFoundExeptionLong("Usuarios - Persona - delete", "Id", usuarios.getIdUsuario());
+            } else {
+                usuarios.setEstUsuario(!usuarios.getEstUsuario());
+            }
+        } else {
+            usuarios.setEstUsuario(!usuarios.getEstUsuario());
+        }
 
         repository.save(usuarios);
     }
 
 
     @Override
-    public UsuariosDtos SaveClienteS(UsuariosDtos dtos, Long idPersona, Long idEmpresa) {
+    public UsuariosDtos SaveClienteS(UsuariosDtos dtos, Long idPersona, String nombreEmpresa) {
 
         Usuarios usuarios = mapearEntidad(dtos);
 
         Personas personas = modelMapper.map(personasRepository.findById(idPersona).orElseThrow(() -> new ResourceNotFoundExeptionLong("Usuario-Persona", "id", idPersona)), Personas.class);
         usuarios.setPersonasRU(personas);
 
-        Empresas empresas = modelMapper.map(empresasRepository.findById(idEmpresa).orElseThrow(() -> new ResourceNotFoundExeptionLong("Usuario-Empresa", "id", idEmpresa)), Empresas.class);
+        Empresas empresas = modelMapper.map(empresasRepository.findByNombreEmpresaAndEstEmpresaTrue(nombreEmpresa).orElseThrow(() -> new ResourceNotFoundExeptionString("Usuario-Empresa", "id", nombreEmpresa)), Empresas.class);
         usuarios.setEmpresasRU(empresas);
 
         Roles roles = rolesRepository.findBynombreRol("ROLE_CLIENTE").orElseThrow(() -> new ResourceNotFoundExeptionString("Usuario-Roles", "name", "ROLE_CLIENTE"));;
@@ -117,55 +124,60 @@ public class UsuariosServicesImpl implements IUsuariosServices {
 
 
     @Override
-    public UsuariosRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa) {
+    public UsuariosRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String nombreEmpresa) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
         Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina, sort);
 
-        Page<Usuarios> usuarios = repository.findAll(pageable);
-        List<Usuarios> listaDeUsuariosAll = usuarios.getContent();
-        List<Usuarios> listaDeUsuarios = new ArrayList<>();
-        List<Personas> listaDePersonas = new ArrayList<>();
+        Page<Usuarios> usuarios = repository.findByEstUsuarioTrueAndEmpresasRUNombreEmpresaAndEmpresasRUEstEmpresaTrue(nombreEmpresa, pageable);
+        List<Usuarios> listaDeUsuarios = usuarios.getContent();
 
-        Empresas empresas = empresasRepository.findByNombreEmpresaAndEstEmpresaTrue(nombreEmpresa).orElseThrow(() -> new ResourceNotFoundExeptionString("Usuario-Persona-Empresa", "id", nombreEmpresa));
-
-        if (estado.equals("all")) {
-            for (int a = 0 ; a < listaDeUsuariosAll.size() ; a++){
-                if (listaDeUsuariosAll.get(a).getEmpresasRU().getIdEmpresa() == empresas.getIdEmpresa()){
-                    listaDeUsuarios.add(listaDeUsuariosAll.get(a));
-                    listaDePersonas.add(listaDeUsuariosAll.get(a).getPersonasRU());
-                }
-            }
-        } else {
-            for (int a = 0 ; a < listaDeUsuariosAll.size() ; a++){
-                if (estado.equalsIgnoreCase("activo") && listaDeUsuariosAll.get(a).getEstUsuario() == true && listaDeUsuariosAll.get(a).getEmpresasRU().getIdEmpresa() == empresas.getIdEmpresa()){
-                    listaDeUsuarios.add(listaDeUsuariosAll.get(a));
-                    listaDePersonas.add(listaDeUsuariosAll.get(a).getPersonasRU());
-                }
-                if (estado.equalsIgnoreCase("desactivo") && listaDeUsuariosAll.get(a).getEstUsuario() == false && listaDeUsuariosAll.get(a).getEmpresasRU().getIdEmpresa() == empresas.getIdEmpresa()){
-                    listaDeUsuarios.add(listaDeUsuariosAll.get(a));
-                    listaDePersonas.add(listaDeUsuariosAll.get(a).getPersonasRU());
-                }
-            }
-        }
-
-        List<UsuariosDtos> contenidoUsuarios = listaDeUsuarios.stream().map(usuario -> mapearDTO(usuario)).collect(Collectors.toList());
-        List<PersonasDtos> contenidoPersonas = listaDePersonas.stream().map(persona -> modelMapper.map(persona, PersonasDtos.class)).collect(Collectors.toList());
-
-//        solo para enviar los datos de paginacion
-        Page<Usuarios> usuariosPage = new PageImpl<>(listaDeUsuarios);
+        List<UsuariosDtos> contenidoUsuarios = listaDeUsuarios.stream()
+                .map(usuario -> {
+                    UsuariosDtos usuarioDTO = mapearDTO(usuario);
+                    PersonasDtos personaDTO = modelMapper.map(usuario.getPersonasRU(), PersonasDtos.class);
+                    usuarioDTO.setPersonasDtos(personaDTO);
+                    return usuarioDTO;
+                })
+                .collect(Collectors.toList());
 
         UsuariosRespuestaDto usuariosRespuestaDto = new UsuariosRespuestaDto();
         usuariosRespuestaDto.setContenidoUsuarios(contenidoUsuarios);
-        usuariosRespuestaDto.setContenidoPersonas(contenidoPersonas);
-        usuariosRespuestaDto.setNumeroPagina(usuariosPage.getNumber());
-        usuariosRespuestaDto.setMedidaPagina(usuariosPage.getSize());
-        usuariosRespuestaDto.setTotalElementos(usuariosPage.getTotalElements());
-        usuariosRespuestaDto.setTotalPagina(usuariosPage.getTotalPages());
-        usuariosRespuestaDto.setUltima(usuariosPage.isLast());
+        usuariosRespuestaDto.setNumeroPagina(usuarios.getNumber());
+        usuariosRespuestaDto.setMedidaPagina(usuarios.getSize());
+        usuariosRespuestaDto.setTotalElementos(usuarios.getTotalElements());
+        usuariosRespuestaDto.setTotalPagina(usuarios.getTotalPages());
+        usuariosRespuestaDto.setUltima(usuarios.isLast());
 
         return usuariosRespuestaDto;
     }
 
+    @Override
+    public UsuariosRespuestaDto FindByCedulaAndApellido1(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String nombreEmpresa, String CedulaOrApellido1) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
+        Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina, sort);
+
+        Page<Usuarios> usuarios = repository.buscarPorCedulayApellido(CedulaOrApellido1, nombreEmpresa, pageable);
+        List<Usuarios> listaDeUsuarios = usuarios.getContent();
+
+        List<UsuariosDtos> contenidoUsuarios = listaDeUsuarios.stream()
+                .map(usuario -> {
+                    UsuariosDtos usuarioDTO = mapearDTO(usuario);
+                    PersonasDtos personaDTO = modelMapper.map(usuario.getPersonasRU(), PersonasDtos.class);
+                    usuarioDTO.setPersonasDtos(personaDTO);
+                    return usuarioDTO;
+                })
+                .collect(Collectors.toList());
+        
+        UsuariosRespuestaDto usuariosRespuestaDto = new UsuariosRespuestaDto();
+        usuariosRespuestaDto.setContenidoUsuarios(contenidoUsuarios);
+        usuariosRespuestaDto.setNumeroPagina(usuarios.getNumber());
+        usuariosRespuestaDto.setMedidaPagina(usuarios.getSize());
+        usuariosRespuestaDto.setTotalElementos(usuarios.getTotalElements());
+        usuariosRespuestaDto.setTotalPagina(usuarios.getTotalPages());
+        usuariosRespuestaDto.setUltima(usuarios.isLast());
+
+        return usuariosRespuestaDto;
+    }
 
     //    METODOS REUTILIZABLES
     private Usuarios mapearEntidad(UsuariosDtos Dto) {
