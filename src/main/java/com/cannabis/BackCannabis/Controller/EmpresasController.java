@@ -53,11 +53,11 @@ public class EmpresasController {
 //    }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> eliminarLogicamenteEmpresas(@PathVariable("id") Long id){
-        services.LogicoDeleteS(id);
-        return new ResponseEntity<>("Empresa eliminado logicamente con exito", HttpStatus.OK);
-    }
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<String> eliminarLogicamenteEmpresas(@PathVariable("id") Long id){
+//        services.LogicoDeleteS(id);
+//        return new ResponseEntity<>("Empresa eliminado logicamente con exito", HttpStatus.OK);
+//    }
 
 //    USADO: PC
     @GetMapping("/name/{nombreEmpresa}")
