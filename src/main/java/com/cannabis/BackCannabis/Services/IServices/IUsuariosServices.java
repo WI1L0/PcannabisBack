@@ -26,7 +26,7 @@ public interface IUsuariosServices {
 
 //    PAGINACION
     UsuariosRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa);
-    UsuariosRespuestaDto FindByCedulaAndApellido1(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa, String celulaOrapellido1);
+    UsuariosRespuestaDto FindByCedulaAndApellido1(int numeroDePagina, int medidaDePagina, String estado, String nombreEmpresa, String celulaOrapellido1);
 
 //    OTROS
     UsuariosDtos BloquearOrDesbloquearUsuarioS(Long Id);

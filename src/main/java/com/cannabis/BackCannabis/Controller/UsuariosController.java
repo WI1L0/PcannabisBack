@@ -80,14 +80,14 @@ public class UsuariosController {
     @GetMapping("/all/paginacion/busqueda/{nombreEmpresa}/{cedulaOrApellido1}")
     public UsuariosRespuestaDto buscarPorCedulaOrApellido1(@RequestParam(value = "pageNo", defaultValue = AppConstantes.NUMERO_DE_PAGINA_POR_DEFECTO, required = false) int numeroDePagina,
                                                                  @RequestParam(value = "pageSize", defaultValue = AppConstantes.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int medidaDePagina,
-                                                                 @RequestParam(value = "sortBy", defaultValue = AppConstantes.ORDENAR_POR_DEFECTO_USUARIO_PERSONA, required = false) String ordenarPor,
-                                                                 @RequestParam(value = "sortDir", defaultValue = AppConstantes.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sortDir,
+//                                                                 @RequestParam(value = "sortBy", defaultValue = AppConstantes.ORDENAR_POR_DEFECTO_USUARIO_PERSONA, required = false) String ordenarPor,
+//                                                                 @RequestParam(value = "sortDir", defaultValue = AppConstantes.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sortDir,
                                                            @RequestParam(value = "estado", defaultValue = AppConstantes.ACTIVO_DESCATIVO, required = false) String estado,
                                                                  @PathVariable("nombreEmpresa") String nombreEmpresa, @PathVariable("cedulaOrApellido1") String cedulaOrApellido1){
-        return services.FindByCedulaAndApellido1(numeroDePagina, medidaDePagina, ordenarPor, sortDir, estado, nombreEmpresa, cedulaOrApellido1);
+        return services.FindByCedulaAndApellido1(numeroDePagina, medidaDePagina, estado, nombreEmpresa, cedulaOrApellido1);
     }
 
-    @PutMapping("/blocOrNoBloc/{id}")
+    @GetMapping("/blocOrNoBloc/{id}")
     public ResponseEntity<UsuariosDtos> BloquearOrNoBloquearUsuarios(@PathVariable("id") Long id){
         return new ResponseEntity<>(services.BloquearOrDesbloquearUsuarioS(id), HttpStatus.OK);
     }

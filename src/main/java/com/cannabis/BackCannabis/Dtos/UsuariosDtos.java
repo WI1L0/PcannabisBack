@@ -21,6 +21,6 @@ public class UsuariosDtos {
     private Boolean bloqueadoUsuario;
     private Boolean estUsuario;
 
-    private PersonasDtos personasDtos;
+    private PersonasDtos personas;
 
 }

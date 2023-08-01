@@ -145,7 +145,7 @@ public class UsuariosServicesImpl implements IUsuariosServices {
                 .map(usuario -> {
                     UsuariosDtos usuarioDTO = mapearDTO(usuario);
                     PersonasDtos personaDTO = modelMapper.map(usuario.getPersonasRU(), PersonasDtos.class);
-                    usuarioDTO.setPersonasDtos(personaDTO);
+                    usuarioDTO.setPersonas(personaDTO);
                     return usuarioDTO;
                 })
                 .collect(Collectors.toList());
@@ -162,9 +162,8 @@ public class UsuariosServicesImpl implements IUsuariosServices {
     }
 
     @Override
-    public UsuariosRespuestaDto FindByCedulaAndApellido1(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa, String CedulaOrApellido1) {
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
-        Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina, sort);
+    public UsuariosRespuestaDto FindByCedulaAndApellido1(int numeroDePagina, int medidaDePagina, String estado, String nombreEmpresa, String CedulaOrApellido1) {
+        Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina);
 
         Page<Usuarios> usuarios = null;
 
@@ -183,7 +182,7 @@ public class UsuariosServicesImpl implements IUsuariosServices {
                 .map(usuario -> {
                     UsuariosDtos usuarioDTO = mapearDTO(usuario);
                     PersonasDtos personaDTO = modelMapper.map(usuario.getPersonasRU(), PersonasDtos.class);
-                    usuarioDTO.setPersonasDtos(personaDTO);
+                    usuarioDTO.setPersonas(personaDTO);
                     return usuarioDTO;
                 })
                 .collect(Collectors.toList());

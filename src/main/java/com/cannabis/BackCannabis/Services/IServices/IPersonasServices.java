@@ -18,4 +18,7 @@ public interface IPersonasServices {
 //    CRUD MODIFICADO
     void LogicoDeleteS(Long Id);
 
+    Boolean existsByCedula(String cedula);
+    Boolean existsByCorreo(String correo);
+
 }

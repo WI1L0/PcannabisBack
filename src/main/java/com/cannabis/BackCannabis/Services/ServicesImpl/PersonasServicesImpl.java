@@ -78,6 +78,16 @@ public class PersonasServicesImpl implements IPersonasServices {
         repository.save(personas);
     }
 
+    @Override
+    public Boolean existsByCedula(String cedula) {
+        return repository.existsByCedulaAndEstPersonaTrue(cedula);
+    }
+
+    @Override
+    public Boolean existsByCorreo(String correo) {
+        return repository.existsByCorreoAndEstPersonaTrue(correo);
+    }
+
 //    @Override
 //    public PersonasRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa) {
 //        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(ordenarPor).ascending() : Sort.by(ordenarPor).descending();

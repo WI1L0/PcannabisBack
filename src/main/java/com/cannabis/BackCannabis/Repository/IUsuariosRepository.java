@@ -25,8 +25,10 @@ public interface IUsuariosRepository extends JpaRepository<Usuarios, Long> {
     Page<Usuarios> findByEstUsuarioTrueAndEmpresasRUNombreEmpresaAndEmpresasRUEstEmpresaTrue(String nombreEmpresa, Pageable pageable);
 
 
-    Optional<Usuarios> findByNombreUsuario(String nombreUsuario);
-//    Boolean existsByNombreUsuario(String nombreUsuario);
+//    Optional<Usuarios> findByNombreUsuario(String nombreUsuario);
+
+    Boolean existsByNombreUsuario(String nombreUsuario);
+
     List<Usuarios> findByPersonasRUAndEstUsuarioTrue(Personas personasRU);
 //    List<Usuarios> findByPersonasRU(Personas personas);
 

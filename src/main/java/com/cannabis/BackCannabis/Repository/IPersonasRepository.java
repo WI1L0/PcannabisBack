@@ -24,4 +24,8 @@ public interface IPersonasRepository extends JpaRepository<Personas, Long> {
     //    Obtener todas las noticias que no tengan eliminado logico
 //    Page<Noticias> findByEstNoticiaTrueAndEmpresasRNNombreEmpresaAndEmpresasRNEstEmpresaTrue(String nombreEmpresa, Pageable pageable);
 
+
+    Boolean existsByCedulaAndEstPersonaTrue(String cedula);
+    Boolean existsByCorreoAndEstPersonaTrue(String correo);
+
 }

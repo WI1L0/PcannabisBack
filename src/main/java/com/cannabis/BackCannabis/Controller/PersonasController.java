@@ -54,4 +54,14 @@ public class PersonasController {
         return new ResponseEntity<>("Persona eliminado logicamente con exito", HttpStatus.OK);
     }
 
+    @GetMapping("/existCorreo/{correo}")
+    public ResponseEntity<Boolean> validarExistCorreo(@PathVariable("correo") String correo){
+        return new ResponseEntity<>(services.existsByCorreo(correo), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/existCedula/{cedula}")
+    public ResponseEntity<Boolean> validarExistCedula(@PathVariable("cedula") String cedula){
+        return new ResponseEntity<>(services.existsByCedula(cedula), HttpStatus.OK);
+    }
+
 }

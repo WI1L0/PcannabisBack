@@ -40,11 +40,11 @@ public class ContactanosController {
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ContactanosDtos> actualizarContactanos(@RequestBody ContactanosDtos dtos, @PathVariable("id") Long id){
-        ContactanosDtos actualizado = services.UpdateS(id, dtos);
-        return new ResponseEntity<>(actualizado, HttpStatus.OK);
-    }
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<ContactanosDtos> actualizarContactanos(@RequestBody ContactanosDtos dtos, @PathVariable("id") Long id){
+//        ContactanosDtos actualizado = services.UpdateS(id, dtos);
+//        return new ResponseEntity<>(actualizado, HttpStatus.OK);
+//    }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
 //    @DeleteMapping("/Definitivo/{id}")
