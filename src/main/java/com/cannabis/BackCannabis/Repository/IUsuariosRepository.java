@@ -21,7 +21,9 @@ public interface IUsuariosRepository extends JpaRepository<Usuarios, Long> {
 //    List<Usuarios> FindByEmpresasRUNombreEmpresaAndEmpresasRNEstEmpresaTrueAndEstUsuarioTrue(String nombreEmpresa);
 
     //    Obtener usuarios true parte administrador
+    Page<Usuarios> findByEstUsuarioTrueAndBloqueadoUsuarioAndEmpresasRUNombreEmpresaAndEmpresasRUEstEmpresaTrue(Boolean bloqueadoUsuario, String nombreEmpresa, Pageable pageable);
     Page<Usuarios> findByEstUsuarioTrueAndEmpresasRUNombreEmpresaAndEmpresasRUEstEmpresaTrue(String nombreEmpresa, Pageable pageable);
+
 
     Optional<Usuarios> findByNombreUsuario(String nombreUsuario);
 //    Boolean existsByNombreUsuario(String nombreUsuario);
@@ -34,8 +36,12 @@ public interface IUsuariosRepository extends JpaRepository<Usuarios, Long> {
     int EliminarPersona(@Param("idPersona") Long idPersona);
 
 //    Busqueda por cedula y apellido1
-    @Query(value = "SELECT * FROM usuarios u INNER JOIN personas p ON p.id_persona = u.id_personar INNER JOIN empresas e ON e.id_empresa = u.id_empresasr WHERE (p.cedula LIKE %:celulaOrapellido1% OR p.apellido1 LIKE %:celulaOrapellido1%) AND u.est_usuario = true AND e.nombre_empresa = :empresa  AND e.est_empresa = true", nativeQuery = true)
-    Page<Usuarios> buscarPorCedulayApellido(String celulaOrapellido1, String empresa, Pageable pageable);
+@Query(value = "SELECT * FROM usuarios u INNER JOIN personas p ON p.id_persona = u.id_personar INNER JOIN empresas e ON e.id_empresa = u.id_empresasr WHERE (p.cedula LIKE %:celulaOrapellido1% OR p.apellido1 LIKE %:celulaOrapellido1%) AND u.est_usuario = true AND e.nombre_empresa = :empresa  AND e.est_empresa = true", nativeQuery = true)
+Page<Usuarios> buscarPorCedulayApellidoAll(String celulaOrapellido1, String empresa, Pageable pageable);
+    @Query(value = "SELECT * FROM usuarios u INNER JOIN personas p ON p.id_persona = u.id_personar INNER JOIN empresas e ON e.id_empresa = u.id_empresasr WHERE (p.cedula LIKE %:celulaOrapellido1% OR p.apellido1 LIKE %:celulaOrapellido1%) AND u.est_usuario = true AND u.bloqueado_usuario = :bloqueadoUsuario AND e.nombre_empresa = :empresa  AND e.est_empresa = true", nativeQuery = true)
+    Page<Usuarios> buscarPorCedulayApellidoBloqueadoOrDesbloqueado(Boolean bloqueadoUsuario, String celulaOrapellido1, String empresa, Pageable pageable);
+//    @Query(value = "SELECT * FROM usuarios u INNER JOIN personas p ON p.id_persona = u.id_personar INNER JOIN empresas e ON e.id_empresa = u.id_empresasr WHERE (p.cedula LIKE %:celulaOrapellido1% OR p.apellido1 LIKE %:celulaOrapellido1%) AND u.est_usuario = true AND u.bloqueado_usuario = true AND e.nombre_empresa = :empresa  AND e.est_empresa = true", nativeQuery = true)
+//    Page<Usuarios> buscarPorCedulayApellidoBloqueado(String celulaOrapellido1, String empresa, Pageable pageable);
 
 
 }

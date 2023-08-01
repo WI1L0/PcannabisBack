@@ -18,6 +18,7 @@ public class UsuariosDtos {
     private String nombreUsuario;
     private String passwordUsuario;
     private String fotoUsuario;
+    private Boolean bloqueadoUsuario;
     private Boolean estUsuario;
 
     private PersonasDtos personasDtos;

@@ -53,14 +53,12 @@ public class UsuariosController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<UsuariosDtos> actualizarUsuarios(@RequestBody UsuariosDtos dtos, @PathVariable("id") Long id){
-        UsuariosDtos actualizado = services.UpdateS(id, dtos);
-        return new ResponseEntity<>(actualizado, HttpStatus.OK);
+        return new ResponseEntity<>(services.UpdateS(id, dtos), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> eliminarLogicamenteUsuarios(@PathVariable("id") Long id){
-        services.LogicoDeleteS(id);
-        return new ResponseEntity<>("Usuario eliminado logicamente con exito", HttpStatus.OK);
+    public ResponseEntity<UsuariosDtos> eliminarLogicamenteUsuarios(@PathVariable("id") Long id){
+        return new ResponseEntity<>(services.LogicoDeleteS(id), HttpStatus.OK);
     }
 
 //    USADO: PC
@@ -74,8 +72,9 @@ public class UsuariosController {
                                                                  @RequestParam(value = "pageSize", defaultValue = AppConstantes.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int medidaDePagina,
                                                                  @RequestParam(value = "sortBy", defaultValue = AppConstantes.ORDENAR_POR_DEFECTO_USUARIO_PERSONA, required = false) String ordenarPor,
                                                                  @RequestParam(value = "sortDir", defaultValue = AppConstantes.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sortDir,
+                                                                 @RequestParam(value = "estado", defaultValue = AppConstantes.ACTIVO_DESCATIVO, required = false) String estado,
                                                                  @PathVariable("nombreEmpresa") String nombreEmpresa){
-        return services.FindAllPaginacionS(numeroDePagina, medidaDePagina, ordenarPor, sortDir, nombreEmpresa);
+        return services.FindAllPaginacionS(numeroDePagina, medidaDePagina, ordenarPor, sortDir, estado, nombreEmpresa);
     }
 
     @GetMapping("/all/paginacion/busqueda/{nombreEmpresa}/{cedulaOrApellido1}")
@@ -83,8 +82,14 @@ public class UsuariosController {
                                                                  @RequestParam(value = "pageSize", defaultValue = AppConstantes.MEDIDA_DE_PAGINA_POR_DEFECTO, required = false) int medidaDePagina,
                                                                  @RequestParam(value = "sortBy", defaultValue = AppConstantes.ORDENAR_POR_DEFECTO_USUARIO_PERSONA, required = false) String ordenarPor,
                                                                  @RequestParam(value = "sortDir", defaultValue = AppConstantes.ORDENAR_DIRECCION_POR_DEFECTO, required = false) String sortDir,
+                                                           @RequestParam(value = "estado", defaultValue = AppConstantes.ACTIVO_DESCATIVO, required = false) String estado,
                                                                  @PathVariable("nombreEmpresa") String nombreEmpresa, @PathVariable("cedulaOrApellido1") String cedulaOrApellido1){
-        return services.FindByCedulaAndApellido1(numeroDePagina, medidaDePagina, ordenarPor, sortDir, nombreEmpresa, cedulaOrApellido1);
+        return services.FindByCedulaAndApellido1(numeroDePagina, medidaDePagina, ordenarPor, sortDir, estado, nombreEmpresa, cedulaOrApellido1);
+    }
+
+    @PutMapping("/blocOrNoBloc/{id}")
+    public ResponseEntity<UsuariosDtos> BloquearOrNoBloquearUsuarios(@PathVariable("id") Long id){
+        return new ResponseEntity<>(services.BloquearOrDesbloquearUsuarioS(id), HttpStatus.OK);
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")

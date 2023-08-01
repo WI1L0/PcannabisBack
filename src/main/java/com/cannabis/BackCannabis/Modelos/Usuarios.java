@@ -37,6 +37,9 @@ public class Usuarios implements Serializable {
     @Column(name = "fotoUsuario")
     private String fotoUsuario;
 
+    @Column(name = "bloqueadoUsuario")
+    private Boolean bloqueadoUsuario;
+
     @Column(name = "estUsuario")
     private Boolean estUsuario;
 

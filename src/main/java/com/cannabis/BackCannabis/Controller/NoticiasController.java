@@ -33,8 +33,7 @@ public class NoticiasController {
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<NoticiasDtos> actualizarNoticias(@RequestBody NoticiasDtos dtos, @PathVariable("id") Long id){
-        NoticiasDtos actualizado = services.UpdateS(id, dtos);
-        return new ResponseEntity<>(actualizado, HttpStatus.OK);
+        return new ResponseEntity<>(services.UpdateS(id, dtos), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

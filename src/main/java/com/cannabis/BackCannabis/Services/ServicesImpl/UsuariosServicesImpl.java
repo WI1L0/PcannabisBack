@@ -87,7 +87,7 @@ public class UsuariosServicesImpl implements IUsuariosServices {
 
     @Transactional
     @Override
-    public void LogicoDeleteS(Long Id) {
+    public UsuariosDtos LogicoDeleteS(Long Id) {
         Usuarios usuarios = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Usuarios", "Id", Id));
         Personas personas = personasRepository.findById(usuarios.getPersonasRU().getIdPersona()).orElseThrow(() -> new ResourceNotFoundExeptionLong("Empresa-Usuarios", "Id", Id));
         List<Usuarios> usuariosList = repository.findByPersonasRUAndEstUsuarioTrue(personas);
@@ -101,9 +101,8 @@ public class UsuariosServicesImpl implements IUsuariosServices {
             usuarios.setEstUsuario(!usuarios.getEstUsuario());
         }
 
-        repository.save(usuarios);
+        return mapearDTO(repository.save(usuarios));
     }
-
 
     @Override
     public UsuariosDtos SaveClienteS(UsuariosDtos dtos, Long idPersona, String nombreEmpresa) {
@@ -124,11 +123,22 @@ public class UsuariosServicesImpl implements IUsuariosServices {
 
 
     @Override
-    public UsuariosRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String nombreEmpresa) {
+    public UsuariosRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
         Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina, sort);
 
-        Page<Usuarios> usuarios = repository.findByEstUsuarioTrueAndEmpresasRUNombreEmpresaAndEmpresasRUEstEmpresaTrue(nombreEmpresa, pageable);
+        Page<Usuarios> usuarios = null;
+
+        if (estado.equalsIgnoreCase("desbloqueado")) {
+            usuarios = repository.findByEstUsuarioTrueAndBloqueadoUsuarioAndEmpresasRUNombreEmpresaAndEmpresasRUEstEmpresaTrue(false, nombreEmpresa, pageable);
+        }
+        if (estado.equalsIgnoreCase("bloqueado")) {
+            usuarios = repository.findByEstUsuarioTrueAndBloqueadoUsuarioAndEmpresasRUNombreEmpresaAndEmpresasRUEstEmpresaTrue(true, nombreEmpresa, pageable);
+        }
+        if (estado.equalsIgnoreCase("all")) {
+            usuarios = repository.findByEstUsuarioTrueAndEmpresasRUNombreEmpresaAndEmpresasRUEstEmpresaTrue(nombreEmpresa, pageable);
+        }
+
         List<Usuarios> listaDeUsuarios = usuarios.getContent();
 
         List<UsuariosDtos> contenidoUsuarios = listaDeUsuarios.stream()
@@ -152,11 +162,21 @@ public class UsuariosServicesImpl implements IUsuariosServices {
     }
 
     @Override
-    public UsuariosRespuestaDto FindByCedulaAndApellido1(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String nombreEmpresa, String CedulaOrApellido1) {
+    public UsuariosRespuestaDto FindByCedulaAndApellido1(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa, String CedulaOrApellido1) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name())?Sort.by(ordenarPor).ascending():Sort.by(ordenarPor).descending();
         Pageable pageable = PageRequest.of(numeroDePagina, medidaDePagina, sort);
 
-        Page<Usuarios> usuarios = repository.buscarPorCedulayApellido(CedulaOrApellido1, nombreEmpresa, pageable);
+        Page<Usuarios> usuarios = null;
+
+        if (estado.equalsIgnoreCase("desbloqueado")) {
+            usuarios = repository.buscarPorCedulayApellidoBloqueadoOrDesbloqueado(false, CedulaOrApellido1, nombreEmpresa, pageable);
+        }
+        if (estado.equalsIgnoreCase("bloqueado")) {
+            usuarios = repository.buscarPorCedulayApellidoBloqueadoOrDesbloqueado(true, CedulaOrApellido1, nombreEmpresa, pageable);
+        }
+        if (estado.equalsIgnoreCase("all")) {
+            usuarios = repository.buscarPorCedulayApellidoAll(CedulaOrApellido1, nombreEmpresa, pageable);
+        }
         List<Usuarios> listaDeUsuarios = usuarios.getContent();
 
         List<UsuariosDtos> contenidoUsuarios = listaDeUsuarios.stream()
@@ -177,6 +197,13 @@ public class UsuariosServicesImpl implements IUsuariosServices {
         usuariosRespuestaDto.setUltima(usuarios.isLast());
 
         return usuariosRespuestaDto;
+    }
+
+    @Override
+    public UsuariosDtos BloquearOrDesbloquearUsuarioS(Long Id) {
+        Usuarios usuarios = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Usuarios", "Id", Id));
+        usuarios.setBloqueadoUsuario(!usuarios.getBloqueadoUsuario());
+        return mapearDTO(repository.save(usuarios));
     }
 
     //    METODOS REUTILIZABLES

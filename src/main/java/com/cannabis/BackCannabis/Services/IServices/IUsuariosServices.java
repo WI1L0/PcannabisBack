@@ -21,14 +21,15 @@ public interface IUsuariosServices {
 
 //    CRUD MODIFICADO
     UsuariosDtos SaveClienteS(UsuariosDtos dtos, Long idPersona, String nombreEmpresa);
-    void LogicoDeleteS(Long Id);
+    UsuariosDtos LogicoDeleteS(Long Id);
 
 
 //    PAGINACION
-    UsuariosRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String nombreEmpresa);
-    UsuariosRespuestaDto FindByCedulaAndApellido1(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String nombreEmpresa, String celulaOrapellido1);
+    UsuariosRespuestaDto FindAllPaginacionS(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa);
+    UsuariosRespuestaDto FindByCedulaAndApellido1(int numeroDePagina, int medidaDePagina, String ordenarPor, String sortDir, String estado, String nombreEmpresa, String celulaOrapellido1);
 
 //    OTROS
+    UsuariosDtos BloquearOrDesbloquearUsuarioS(Long Id);
 
 //    TRAER TODO POR ATRIBUTO
 //    List<UsuariosDtos> FindAllByEmpresasId(Long Id);
