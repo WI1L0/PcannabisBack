@@ -42,6 +42,8 @@ public class ContactanosServicesImpl implements IContactanosServices {
     public ContactanosDtos SaveS(ContactanosDtos dtos, String nombreEmpresa) {
         Empresas empresas = empresasRepository.findByNombreEmpresaAndEstEmpresaTrue(nombreEmpresa).orElseThrow(() -> new ResourceNotFoundExeptionString("Noticias-save-empresa", "Id", nombreEmpresa));;
         Contactanos contactanos = mapearEntidad(dtos);
+        contactanos.setEstContactanos(true);
+        contactanos.setEstOcultoVisibleContactanos(true);
         contactanos.setEmpresasRC(empresas);
         return mapearDTO(repository.save(contactanos));
     }
