@@ -29,6 +29,7 @@ public interface IContactanosServices {
 
     //    ACTUALIZAR ESTADOS
     ContactanosDtos updateEstado(Long id);
+    ContactanosDtos updateEstadoVistoOrNoVisto(Long id);
 
 //    OTROS
 //    TRAER TODO POR ATRIBUTO

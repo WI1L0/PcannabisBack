@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -37,8 +38,14 @@ public class Contactanos implements Serializable {
     @Column(name = "detalleContactanos")
     private String detalleContactanos;
 
+    @Column(name = "fechaContactanos")
+    private LocalDate fechaContactanos;
+
     @Column(name = "estOcultoVisibleContactanos")
     private Boolean estOcultoVisibleContactanos;
+
+    @Column(name = "estVisto")
+    private Boolean estVisto;
 
     @Column(name = "estContactanos")
     private Boolean estContactanos;

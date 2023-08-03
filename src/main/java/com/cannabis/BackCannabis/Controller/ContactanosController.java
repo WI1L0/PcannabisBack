@@ -84,6 +84,11 @@ public class ContactanosController {
     public ResponseEntity<ContactanosDtos> actualizarContactanosEstado(@PathVariable("id") Long id){
         return new ResponseEntity<>(services.updateEstado(id), HttpStatus.OK);
     }
+
+    @GetMapping("/update/estadoVistoOrNoVisto/{id}")
+    public ResponseEntity<ContactanosDtos> ActualizarEstadoVistoOrNoVisto(@PathVariable("id") Long id){
+        return new ResponseEntity<>(services.updateEstadoVistoOrNoVisto(id), HttpStatus.OK);
+    }
 }
 
 

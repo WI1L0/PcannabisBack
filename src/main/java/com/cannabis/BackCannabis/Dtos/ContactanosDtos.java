@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -20,7 +21,9 @@ public class ContactanosDtos {
     private String emailContactanos;
     private String asuntoContactanos;
     private String detalleContactanos;
+    private LocalDate fechaContactanos;
     private Boolean estOcultoVisibleContactanos;
+    private Boolean estVisto;
     private Boolean estContactanos;
 
 }

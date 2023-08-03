@@ -18,9 +18,9 @@ public interface IContactanosRepository extends JpaRepository<Contactanos, Long>
     Page<Contactanos> findByEstContactanosTrueAndEmpresasRCNombreEmpresaAndEmpresasRCEstEmpresaTrue(String nombreEmpresa, Pageable pageable);
 
     //    Busqueda por titulo y fecha
-    @Query(value = "SELECT * FROM contactanos c WHERE (c.nombre_contactanos LIKE %:NombreOrEmail% OR c.email_contactanos LIKE %:NombreOrEmail%) AND c.est_contactanos = true AND c.id_empresasr = :idEmpresa  AND n.est_oculto_visible_contactanos = :estado", nativeQuery = true)
+    @Query(value = "SELECT * FROM contactanos c WHERE (c.nombre_contactanos LIKE %:NombreOrEmail% OR c.email_contactanos LIKE %:NombreOrEmail%) AND c.est_contactanos = true AND c.id_empresasr = :idEmpresa  AND c.est_oculto_visible_contactanos = :estado ORDER BY c.fecha_contactanos DESC", nativeQuery = true)
     Page<Contactanos> buscarPorNombreOrEmailEstado(String NombreOrEmail, Long idEmpresa, Boolean estado, Pageable pageable);
-    @Query(value = "SELECT * FROM contactanos c WHERE (c.nombre_contactanos LIKE %:NombreOrEmail% OR c.email_contactanos LIKE %:NombreOrEmail%) AND c.est_contactanos = true AND c.id_empresasr = :idEmpresa", nativeQuery = true)
+    @Query(value = "SELECT * FROM contactanos c WHERE (c.nombre_contactanos LIKE %:NombreOrEmail% OR c.email_contactanos LIKE %:NombreOrEmail%) AND c.est_contactanos = true AND c.id_empresasr = :idEmpresa ORDER BY c.fecha_contactanos DESC", nativeQuery = true)
     Page<Contactanos> buscarPorNombreOrEmailAll(String NombreOrEmail, Long idEmpresa, Pageable pageable);
 
 }

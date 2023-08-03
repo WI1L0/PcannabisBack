@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +43,8 @@ public class ContactanosServicesImpl implements IContactanosServices {
     public ContactanosDtos SaveS(ContactanosDtos dtos, String nombreEmpresa) {
         Empresas empresas = empresasRepository.findByNombreEmpresaAndEstEmpresaTrue(nombreEmpresa).orElseThrow(() -> new ResourceNotFoundExeptionString("Noticias-save-empresa", "Id", nombreEmpresa));;
         Contactanos contactanos = mapearEntidad(dtos);
+        contactanos.setFechaContactanos(LocalDate.now());
+        contactanos.setEstVisto(false);
         contactanos.setEstContactanos(true);
         contactanos.setEstOcultoVisibleContactanos(true);
         contactanos.setEmpresasRC(empresas);
@@ -154,6 +157,16 @@ public class ContactanosServicesImpl implements IContactanosServices {
             contactanos.setEstOcultoVisibleContactanos(true);
         } else {
             contactanos.setEstOcultoVisibleContactanos(false);
+        }
+        return mapearDTO(repository.save(contactanos));
+    }
+
+    @Override
+    public ContactanosDtos updateEstadoVistoOrNoVisto(Long id) {
+        Contactanos contactanos = repository.findById(id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Contactanos-update-estado-visto", "Id", id));
+
+        if (contactanos.getEstVisto() == false) {
+            contactanos.setEstVisto(true);
         }
         return mapearDTO(repository.save(contactanos));
     }
