@@ -23,6 +23,6 @@ public interface IFotosNoticiasServices {
 //    OTROS
 
 //    TRAER TODO POR ATRIBUTO
-    List<FotosNoticiasDtos> FindAllByNoticiasId(Long Id, String estado);
+    List<FotosNoticiasDtos> FindAllByNoticiasId(Long Id);
 
 }

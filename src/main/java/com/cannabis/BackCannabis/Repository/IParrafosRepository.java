@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface IParrafosRepository  extends JpaRepository<Parrafos, Long> {
 
-    List<Parrafos> findByNoticiasRP(Noticias noticias);
-    List<Parrafos> findByNoticiasRPAndEstParrafoTrue(Noticias noticias);
+    List<Parrafos> findByEstParrafoTrueAndNoticiasRP(Noticias noticias);
+//    List<Parrafos> findByNoticiasRPAndEstParrafoTrue(Noticias noticias);
 
 }

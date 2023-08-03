@@ -1,5 +1,6 @@
 package com.cannabis.BackCannabis.Services.ServicesImpl;
 
+import com.cannabis.BackCannabis.Dtos.NoticiasDtos;
 import com.cannabis.BackCannabis.Dtos.ParrafosDtos;
 import com.cannabis.BackCannabis.Modelos.Noticias;
 import com.cannabis.BackCannabis.Modelos.Parrafos;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ParrafosServicesImpl implements IParrafosServices {
@@ -73,26 +75,16 @@ public class ParrafosServicesImpl implements IParrafosServices {
 
 
     @Override
-    public List<ParrafosDtos> FindAllByNoticiasId(Long Id, String estado) {
-        List<ParrafosDtos> parrafosDtosListAll = new ArrayList<>();
-        List<ParrafosDtos> parrafosDtosList = new ArrayList<>();
+    public List<ParrafosDtos> findByParrafosAll(Long Id) {
         Noticias noticias = noticiasRepository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Parrafos-Noticias-Id", "Id", Id));
+        List<ParrafosDtos> parrafosDtosList = new ArrayList<>();
+        repository.findByEstParrafoTrueAndNoticiasRP(noticias).forEach(data -> parrafosDtosList.add(mapearDTO(data)));
+//        List<Parrafos> parrafosDtosListAll = new ArrayList<>();
+//        List<ParrafosDtos> parrafosDtosList = new ArrayList<>();
 
-        repository.findByNoticiasRP(noticias).forEach(data -> parrafosDtosListAll.add(mapearDTO(data)));
-
-        if (estado.equals("all")) {
-            parrafosDtosList = parrafosDtosListAll;
-        } else {
-            for (int a = 0 ; a < parrafosDtosListAll.size() ; a++){
-                if (estado.equalsIgnoreCase("activo") && parrafosDtosListAll.get(a).getEstParrafo() == true){
-                    parrafosDtosList.add(parrafosDtosListAll.get(a));
-                }
-                if (estado.equalsIgnoreCase("desactivo") && parrafosDtosListAll.get(a).getEstParrafo() == true){
-                    parrafosDtosList.add(parrafosDtosListAll.get(a));
-                }
-            }
-        }
-
+//        List<ParrafosDtos> parrafosDtosList = repository.findByNoticiasRPAndEstParrafoTrue(noticias).stream().map(parrafos -> mapearDTO(parrafos)).collect(Collectors.toList());
+//        repository.findByNoticiasRPAndEstParrafoTrue(noticias).forEach(data -> parrafosDtosListAll.add(mapearDTO(data)));
+//        parrafosDtosList = parrafosDtosListAll;
         return parrafosDtosList;
     }
 

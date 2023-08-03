@@ -104,7 +104,7 @@ public class ContactanosServicesImpl implements IContactanosServices {
         contactanosRespuestaDto.setNumeroPagina(contactanos.getNumber());
         contactanosRespuestaDto.setMedidaPagina(contactanos.getSize());
         contactanosRespuestaDto.setTotalElementos(contactanos.getTotalElements());
-        contactanosRespuestaDto.setTotalPagina(contactanos.getTotalPages());
+        contactanosRespuestaDto.setTotalPagina(contactanos.getTotalPages() - 1);
         contactanosRespuestaDto.setUltima(contactanos.isLast());
 
         return contactanosRespuestaDto;
@@ -135,7 +135,7 @@ public class ContactanosServicesImpl implements IContactanosServices {
         contactanosRespuestaDto.setNumeroPagina(contactanos.getNumber());
         contactanosRespuestaDto.setMedidaPagina(contactanos.getSize());
         contactanosRespuestaDto.setTotalElementos(contactanos.getTotalElements());
-        contactanosRespuestaDto.setTotalPagina(contactanos.getTotalPages());
+        contactanosRespuestaDto.setTotalPagina(contactanos.getTotalPages() - 1);
         contactanosRespuestaDto.setUltima(contactanos.isLast());
 
         return contactanosRespuestaDto;

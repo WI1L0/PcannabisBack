@@ -58,8 +58,8 @@ public class ParrafosController {
 
 //    USADO: PC
     @GetMapping("/noticia/{id}")
-    public List<ParrafosDtos> listarParrafosPorNoticiaId(@PathVariable("id") Long id, @RequestParam(value = "estado", defaultValue = AppConstantes.ACTIVO_DESCATIVO, required = false) String estado){
-        return services.FindAllByNoticiasId(id, estado);
+    public List<ParrafosDtos> listarParrafosPorNoticiaId(@PathVariable("id") Long id){
+        return services.findByParrafosAll(id);
     }
 
 }

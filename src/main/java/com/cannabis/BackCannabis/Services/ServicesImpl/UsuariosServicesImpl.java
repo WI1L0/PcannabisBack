@@ -155,7 +155,7 @@ public class UsuariosServicesImpl implements IUsuariosServices {
         usuariosRespuestaDto.setNumeroPagina(usuarios.getNumber());
         usuariosRespuestaDto.setMedidaPagina(usuarios.getSize());
         usuariosRespuestaDto.setTotalElementos(usuarios.getTotalElements());
-        usuariosRespuestaDto.setTotalPagina(usuarios.getTotalPages());
+        usuariosRespuestaDto.setTotalPagina(usuarios.getTotalPages() - 1);
         usuariosRespuestaDto.setUltima(usuarios.isLast());
 
         return usuariosRespuestaDto;
@@ -192,7 +192,7 @@ public class UsuariosServicesImpl implements IUsuariosServices {
         usuariosRespuestaDto.setNumeroPagina(usuarios.getNumber());
         usuariosRespuestaDto.setMedidaPagina(usuarios.getSize());
         usuariosRespuestaDto.setTotalElementos(usuarios.getTotalElements());
-        usuariosRespuestaDto.setTotalPagina(usuarios.getTotalPages());
+        usuariosRespuestaDto.setTotalPagina(usuarios.getTotalPages() - 1);
         usuariosRespuestaDto.setUltima(usuarios.isLast());
 
         return usuariosRespuestaDto;

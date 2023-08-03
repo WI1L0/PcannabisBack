@@ -27,8 +27,8 @@ public interface INoticiasRepository extends JpaRepository<Noticias, Long> {
     int EliminarParrafos(@Param("idNoticia") Long idNoticia);
 
 //    Busqueda por titulo y fecha
-    @Query(value = "SELECT * FROM noticias n WHERE (n.fecha_noticia LIKE %:FechaOrTitulo% OR n.titulo_noticia LIKE %:FechaOrTitulo%) AND n.est_noticia = true AND n.id_empresasr = :idEmpresa  AND n.est_oculto_visible_noticia = :estado", nativeQuery = true)
+    @Query(value = "SELECT * FROM noticias n WHERE (n.fecha_noticia LIKE %:FechaOrTitulo% OR n.titulo_noticia LIKE %:FechaOrTitulo%) AND n.est_noticia = true AND n.id_empresasr = :idEmpresa  AND n.est_oculto_visible_noticia = :estado ORDER BY n.fecha_noticia DESC", nativeQuery = true)
     Page<Noticias> buscarPorFechayTituloEstado(String FechaOrTitulo, Long idEmpresa, Boolean estado, Pageable pageable);
-    @Query(value = "SELECT * FROM noticias n WHERE (n.fecha_noticia LIKE %:FechaOrTitulo% OR n.titulo_noticia LIKE %:FechaOrTitulo%) AND n.est_noticia = true AND n.id_empresasr = :idEmpresa", nativeQuery = true)
+    @Query(value = "SELECT * FROM noticias n WHERE (n.fecha_noticia LIKE %:FechaOrTitulo% OR n.titulo_noticia LIKE %:FechaOrTitulo%) AND n.est_noticia = true AND n.id_empresasr = :idEmpresa ORDER BY n.fecha_noticia DESC", nativeQuery = true)
     Page<Noticias> buscarPorFechayTituloAll(String FechaOrTitulo, Long idEmpresa, Pageable pageable);
 }

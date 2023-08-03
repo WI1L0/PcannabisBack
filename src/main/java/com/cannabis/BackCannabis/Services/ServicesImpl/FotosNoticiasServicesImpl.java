@@ -1,6 +1,7 @@
 package com.cannabis.BackCannabis.Services.ServicesImpl;
 
 import com.cannabis.BackCannabis.Dtos.FotosNoticiasDtos;
+import com.cannabis.BackCannabis.Dtos.ParrafosDtos;
 import com.cannabis.BackCannabis.Modelos.FotosNoticias;
 import com.cannabis.BackCannabis.Modelos.Noticias;
 import com.cannabis.BackCannabis.Repository.IFotosNoticiasRepository;
@@ -80,11 +81,22 @@ public class FotosNoticiasServicesImpl implements IFotosNoticiasServices {
     }
 
     @Override
-    public List<FotosNoticiasDtos> FindAllByNoticiasId(Long Id, String estado) {
-        List<FotosNoticiasDtos> fotosNoticiasDtosListAll = new ArrayList<>();
+    public List<FotosNoticiasDtos> FindAllByNoticiasId(Long Id) {
+        Noticias noticias = noticiasRepository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Fotos-Noticias-Id", "Id", Id));
         List<FotosNoticiasDtos> fotosNoticiasDtosList = new ArrayList<>();
+        repository.findByEstFotosNoticiaTrueAndNoticiasRFN(noticias).forEach(data -> fotosNoticiasDtosList.add(mapearDTO(data)));
+//        List<Parrafos> parrafosDtosListAll = new ArrayList<>();
+//        List<ParrafosDtos> parrafosDtosList = new ArrayList<>();
 
-        Noticias noticias = noticiasRepository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("FotosNoticias - Noticias", "Id", Id));
+//        List<ParrafosDtos> parrafosDtosList = repository.findByNoticiasRPAndEstParrafoTrue(noticias).stream().map(parrafos -> mapearDTO(parrafos)).collect(Collectors.toList());
+//        repository.findByNoticiasRPAndEstParrafoTrue(noticias).forEach(data -> parrafosDtosListAll.add(mapearDTO(data)));
+//        parrafosDtosList = parrafosDtosListAll;
+        return fotosNoticiasDtosList;
+//
+//        List<FotosNoticiasDtos> fotosNoticiasDtosListAll = new ArrayList<>();
+//        List<FotosNoticiasDtos> fotosNoticiasDtosList = new ArrayList<>();
+//
+//        Noticias noticias = noticiasRepository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("FotosNoticias - Noticias", "Id", Id));
 //        repository.findByNoticiasRFN(noticias).forEach(data -> fotosNoticiasDtosListAll.add(mapearDTO(data)));
 //
 //        if (estado.equals("all")) {
@@ -100,7 +112,7 @@ public class FotosNoticiasServicesImpl implements IFotosNoticiasServices {
 //            }
 //        }
 
-        return null;
+//        return null;
     }
 
 

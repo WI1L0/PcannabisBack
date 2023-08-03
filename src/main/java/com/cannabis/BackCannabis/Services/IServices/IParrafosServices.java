@@ -23,5 +23,5 @@ public interface IParrafosServices {
 //    OTROS
 
 //    TRAER TODO POR ATRIBUTO
-    List<ParrafosDtos> FindAllByNoticiasId(Long Id, String estado);
+    List<ParrafosDtos> findByParrafosAll(Long Id);
 }
