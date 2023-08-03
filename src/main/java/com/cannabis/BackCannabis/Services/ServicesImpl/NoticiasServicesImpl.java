@@ -40,6 +40,8 @@ public class NoticiasServicesImpl implements INoticiasServices {
     public NoticiasDtos SaveS(NoticiasDtos dtos, String nombreEmpresa) {
         Empresas empresas = empresasRepository.findByNombreEmpresaAndEstEmpresaTrue(nombreEmpresa).orElseThrow(() -> new ResourceNotFoundExeptionString("Noticias-save-empresa", "Id", nombreEmpresa));;
         Noticias noticias = mapearEntidad(dtos);
+        noticias.setEstNoticia(true);
+        noticias.setEstOcultoVisibleNoticia(true);
         noticias.setEmpresasRN(empresas);
         return mapearDTO(repository.save(noticias));
     }
