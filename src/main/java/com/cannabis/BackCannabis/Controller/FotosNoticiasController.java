@@ -2,6 +2,7 @@ package com.cannabis.BackCannabis.Controller;
 
 import com.cannabis.BackCannabis.Dtos.FotosEmpresasDtos;
 import com.cannabis.BackCannabis.Dtos.FotosNoticiasDtos;
+import com.cannabis.BackCannabis.Dtos.ParrafosDtos;
 import com.cannabis.BackCannabis.Modelos.FotosNoticias;
 import com.cannabis.BackCannabis.Services.IServices.IFotosNoticiasServices;
 import com.cannabis.BackCannabis.utilerias.AppConstantes;
@@ -32,9 +33,9 @@ public class FotosNoticiasController {
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/save/")
-    public ResponseEntity<FotosNoticiasDtos> guardarFotosNoticias(@RequestBody FotosNoticiasDtos dtos){
-        return new ResponseEntity<>(services.SaveS(dtos), HttpStatus.CREATED);
+    @PostMapping("/save/{IDNoticia}")
+    public ResponseEntity<FotosNoticiasDtos> guardarFotosNoticias(@RequestBody FotosNoticiasDtos dtos, @PathVariable("IDNoticia") Long IDNoticia){
+        return new ResponseEntity<>(services.SaveS(dtos,IDNoticia), HttpStatus.CREATED);
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")

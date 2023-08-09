@@ -2,12 +2,14 @@ package com.cannabis.BackCannabis.Services.ServicesImpl;
 
 import com.cannabis.BackCannabis.Dtos.NoticiasDtos;
 import com.cannabis.BackCannabis.Dtos.ParrafosDtos;
+import com.cannabis.BackCannabis.Modelos.Empresas;
 import com.cannabis.BackCannabis.Modelos.Noticias;
 import com.cannabis.BackCannabis.Modelos.Parrafos;
 import com.cannabis.BackCannabis.Repository.INoticiasRepository;
 import com.cannabis.BackCannabis.Repository.IParrafosRepository;
 import com.cannabis.BackCannabis.Services.IServices.IParrafosServices;
 import com.cannabis.BackCannabis.excepciones.ResourceNotFoundExeptionLong;
+import com.cannabis.BackCannabis.excepciones.ResourceNotFoundExeptionString;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,9 +45,12 @@ public class ParrafosServicesImpl implements IParrafosServices {
     }
 
     @Override
-    public ParrafosDtos SaveS(ParrafosDtos dtos) {
-        Parrafos parrafos = repository.save(mapearEntidad(dtos));
-        return mapearDTO(parrafos);
+    public ParrafosDtos SaveS(ParrafosDtos dtos, Long IDNoticia) {
+        Noticias noticia = noticiasRepository.findById(IDNoticia).orElseThrow(() -> new ResourceNotFoundExeptionLong("Noticias-save-empresa", "Id", IDNoticia));;
+        Parrafos parrafos = mapearEntidad(dtos);
+        parrafos.setEstParrafo(true);
+        parrafos.setNoticiasRP(noticia);
+        return mapearDTO(repository.save(parrafos));
     }
 
     @Override

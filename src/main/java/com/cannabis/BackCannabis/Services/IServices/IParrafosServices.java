@@ -11,7 +11,7 @@ public interface IParrafosServices {
 //    CRUD
     List<ParrafosDtos> FindAllS();
     ParrafosDtos FindByIdS(Long Id);
-    ParrafosDtos SaveS(ParrafosDtos dtos);
+    ParrafosDtos SaveS(ParrafosDtos dtos, Long IDNoticia);
     ParrafosDtos UpdateS(Long Id, ParrafosDtos dtos);
     void DeleteS(Long Id);
 

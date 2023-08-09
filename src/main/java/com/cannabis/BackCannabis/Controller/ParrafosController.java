@@ -1,6 +1,7 @@
 package com.cannabis.BackCannabis.Controller;
 
 import com.cannabis.BackCannabis.Dtos.FotosNoticiasDtos;
+import com.cannabis.BackCannabis.Dtos.NoticiasDtos;
 import com.cannabis.BackCannabis.Dtos.ParrafosDtos;
 import com.cannabis.BackCannabis.Services.IServices.IParrafosServices;
 import com.cannabis.BackCannabis.utilerias.AppConstantes;
@@ -31,12 +32,17 @@ public class ParrafosController {
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/save/")
-    public ResponseEntity<ParrafosDtos> guardarParrafos(@RequestBody ParrafosDtos dtos){
-        return new ResponseEntity<>(services.SaveS(dtos), HttpStatus.CREATED);
+//    @PostMapping("/save/")
+//    public ResponseEntity<ParrafosDtos> guardarParrafos(@RequestBody ParrafosDtos dtos){
+//        return new ResponseEntity<>(services.SaveS(dtos), HttpStatus.CREATED);
+//    }
+    @PostMapping("/save/{IDNoticia}")
+    public ResponseEntity<ParrafosDtos> guardarParrafos(@RequestBody ParrafosDtos dtos, @PathVariable("IDNoticia") Long IDNoticia){
+    return new ResponseEntity<>(services.SaveS(dtos, IDNoticia), HttpStatus.CREATED);
     }
 
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<ParrafosDtos> actualizarParrafos(@RequestBody ParrafosDtos dtos, @PathVariable("id") Long id){
         ParrafosDtos actualizado = services.UpdateS(id, dtos);

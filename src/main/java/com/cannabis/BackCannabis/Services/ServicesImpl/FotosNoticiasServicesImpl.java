@@ -42,7 +42,7 @@ public class FotosNoticiasServicesImpl implements IFotosNoticiasServices {
     }
 
     @Override
-    public FotosNoticiasDtos SaveS(FotosNoticiasDtos dtos) {
+    public FotosNoticiasDtos SaveS(FotosNoticiasDtos dtos, Long IDNoticia) {
         FotosNoticias fotosNoticias = repository.save(mapearEntidad(dtos));
         return mapearDTO(fotosNoticias);
     }

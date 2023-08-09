@@ -10,7 +10,7 @@ public interface IFotosNoticiasServices {
 //    CRUD
     List<FotosNoticiasDtos> FindAllS();
     FotosNoticiasDtos FindByIdS(Long Id);
-    FotosNoticiasDtos SaveS(FotosNoticiasDtos dtos);
+    FotosNoticiasDtos SaveS(FotosNoticiasDtos dtos, Long IDNoticia);
     FotosNoticiasDtos UpdateS(Long Id, FotosNoticiasDtos dtos);
     void DeleteS(Long Id);
 
