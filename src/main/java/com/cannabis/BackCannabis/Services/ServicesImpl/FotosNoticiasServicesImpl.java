@@ -4,6 +4,7 @@ import com.cannabis.BackCannabis.Dtos.FotosNoticiasDtos;
 import com.cannabis.BackCannabis.Dtos.ParrafosDtos;
 import com.cannabis.BackCannabis.Modelos.FotosNoticias;
 import com.cannabis.BackCannabis.Modelos.Noticias;
+import com.cannabis.BackCannabis.Modelos.Parrafos;
 import com.cannabis.BackCannabis.Repository.IFotosNoticiasRepository;
 import com.cannabis.BackCannabis.Repository.INoticiasRepository;
 import com.cannabis.BackCannabis.Services.IServices.IFotosNoticiasServices;
@@ -43,8 +44,13 @@ public class FotosNoticiasServicesImpl implements IFotosNoticiasServices {
 
     @Override
     public FotosNoticiasDtos SaveS(FotosNoticiasDtos dtos, Long IDNoticia) {
-        FotosNoticias fotosNoticias = repository.save(mapearEntidad(dtos));
-        return mapearDTO(fotosNoticias);
+//        FotosNoticias fotosNoticias = repository.save(mapearEntidad(dtos));
+//        return mapearDTO(fotosNoticias);
+        Noticias noticia = noticiasRepository.findById(IDNoticia).orElseThrow(() -> new ResourceNotFoundExeptionLong("Noticias-save-empresa", "Id", IDNoticia));;
+        FotosNoticias fotosNoticias = mapearEntidad(dtos);
+        fotosNoticias.setEstFotosNoticia(true);
+        fotosNoticias.setNoticiasRFN(noticia);
+        return mapearDTO(repository.save(fotosNoticias));
     }
 
     @Override
