@@ -51,7 +51,7 @@ public class FotosNoticiasController {
         services.DeleteS(id);
         return new ResponseEntity<>("FotosNoticia eliminado definitivamente con exito", HttpStatus.OK);
     }
-
+    
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> eliminarLogicamenteFotosNoticias(@PathVariable("id") Long id){
         services.LogicoDeleteS(id);

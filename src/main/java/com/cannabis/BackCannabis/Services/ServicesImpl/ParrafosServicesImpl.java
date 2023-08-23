@@ -12,7 +12,11 @@ import com.cannabis.BackCannabis.excepciones.ResourceNotFoundExeptionLong;
 import com.cannabis.BackCannabis.excepciones.ResourceNotFoundExeptionString;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,14 +58,14 @@ public class ParrafosServicesImpl implements IParrafosServices {
     }
 
     @Override
-    public ParrafosDtos UpdateS(Long Id, ParrafosDtos dtos) {
+    public ParrafosDtos UpdateS( Long Id,ParrafosDtos dtos) {
         Parrafos parrafos = repository.findById(Id).orElseThrow(() -> new ResourceNotFoundExeptionLong("Parrafos", "Id", Id));
-
         parrafos.setParrafo(dtos.getParrafo());
         parrafos.setEstParrafo(dtos.getEstParrafo());
-
         return mapearDTO(repository.save(parrafos));
     }
+
+
 
     @Override
     public void DeleteS(Long Id) {

@@ -45,11 +45,13 @@ public class ParrafosController {
     //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<ParrafosDtos> actualizarParrafos(@RequestBody ParrafosDtos dtos, @PathVariable("id") Long id){
-        ParrafosDtos actualizado = services.UpdateS(id, dtos);
-        return new ResponseEntity<>(actualizado, HttpStatus.OK);
+//        ParrafosDtos actualizado = services.UpdateS(dtos, IDParrafo);
+//        return new ResponseEntity<>(actualizado, HttpStatus.OK);
+        return new ResponseEntity<>(services.UpdateS(id, dtos), HttpStatus.OK);
     }
 
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/definitivo/{id}")
     public ResponseEntity<String> eliminarDefinitivoParrafos(@PathVariable("id") Long id){
         services.DeleteS(id);
